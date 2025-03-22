@@ -1,0 +1,328 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-03-22 15:57:49
+-- Luau version 6, Types version 3
+-- Time taken: 0.006630 seconds
+
+local ZoneCmds_upvr = require(game.ReplicatedStorage.Library.Client.ZoneCmds)
+local RebirthCmds_upvr = require(game.ReplicatedStorage.Library.Client.RebirthCmds)
+local MachineCmds = require(game.ReplicatedStorage.Library.Client.MachineCmds)
+local TabController_upvr = require(game.ReplicatedStorage.Library.Client.TabController)
+local GUI_upvr = require(game.ReplicatedStorage.Library.Client.GUI)
+local FFlags_upvr = require(game.ReplicatedStorage.Library.Client.FFlags)
+local Save_upvr = require(game.ReplicatedStorage.Library.Client.Save)
+local RunService_upvr = game:GetService("RunService")
+local Frame = GUI_upvr.RebirthDetails().Frame
+local tbl_upvr_2 = {}
+local var15_upvw = true
+local tbl_upvr = {}
+local tbl_upvr_3 = {}
+local Audio_upvr = require(game.ReplicatedStorage.Library.Audio)
+local function init_upvr(arg1) -- Line 46, Named "init"
+	--[[ Upvalues[6]:
+		[1]: Save_upvr (readonly)
+		[2]: Audio_upvr (readonly)
+		[3]: RunService_upvr (readonly)
+		[4]: tbl_upvr_3 (readonly)
+		[5]: tbl_upvr (readonly)
+		[6]: tbl_upvr_2 (readonly)
+	]]
+	while not Save_upvr.Get() do
+		task.wait()
+	end
+	local Model_upvr = arg1.Model
+	if not Model_upvr.Parent then
+	else
+		Audio_upvr.Play("rbxassetid://15410521971", arg1.Model, 1, 0.75, 125, nil, true)
+		local Rebirth_Shrine_Cat_upvr = Model_upvr:FindFirstChild("Rebirth Shrine_Cat")
+		local var22_upvw
+		local var23_upvw = 0
+		local any_GetPivot_result1_2_upvr = Rebirth_Shrine_Cat_upvr:GetPivot()
+		var22_upvw = RunService_upvr.RenderStepped:Connect(function(arg1_2) -- Line 66
+			--[[ Upvalues[5]:
+				[1]: Model_upvr (readonly)
+				[2]: var22_upvw (read and write)
+				[3]: var23_upvw (read and write)
+				[4]: any_GetPivot_result1_2_upvr (readonly)
+				[5]: Rebirth_Shrine_Cat_upvr (readonly)
+			]]
+			if not Model_upvr.Parent then
+				var22_upvw:Disconnect()
+			else
+				var23_upvw += arg1_2
+				local cframe = CFrame.new(0, math.sin(var23_upvw) * 2, 0)
+				Rebirth_Shrine_Cat_upvr:PivotTo(CFrame.new(any_GetPivot_result1_2_upvr.Position + cframe.Position, any_GetPivot_result1_2_upvr.Position + cframe.Position + any_GetPivot_result1_2_upvr.LookVector))
+			end
+		end)
+		local RebirthNumber_2 = Model_upvr:GetAttribute("RebirthNumber")
+		tbl_upvr_3[Model_upvr] = RebirthNumber_2
+		tbl_upvr[RebirthNumber_2] = Model_upvr
+		tbl_upvr_2[RebirthNumber_2] = true
+		updateShrine(Model_upvr)
+	end
+end
+local function _(arg1) -- Line 87, Named "cleanup"
+	--[[ Upvalues[3]:
+		[1]: tbl_upvr_3 (readonly)
+		[2]: tbl_upvr (readonly)
+		[3]: tbl_upvr_2 (readonly)
+	]]
+	tbl_upvr_3[arg1.Model] = nil
+	tbl_upvr[arg1.Model:GetAttribute("RebirthNumber")] = nil
+	tbl_upvr_2[arg1.Model:GetAttribute("RebirthNumber")] = nil
+end
+function updateShrine(arg1) -- Line 93
+	--[[ Upvalues[2]:
+		[1]: Save_upvr (readonly)
+		[2]: tbl_upvr_3 (readonly)
+	]]
+	local any_Get_result1_2 = Save_upvr.Get()
+	if not any_Get_result1_2 then
+	else
+		local var32 = tbl_upvr_3[arg1]
+		if not var32 then return end
+		if var32 <= any_Get_result1_2.Rebirths then
+			for _, v_6 in pairs(arg1:FindFirstChild("GUI Stuff"):GetChildren()) do
+				if v_6:IsA("BasePart") then
+					if v_6:GetAttribute("Hide") then
+						v_6.Transparency = 1
+					end
+					for _, v_7 in pairs(v_6:GetDescendants()) do
+						if v_7:IsA("BillboardGui") then
+							v_7.Enabled = false
+						end
+						if v_7:IsA("ParticleEmitter") then
+							v_7.Enabled = false
+						end
+					end
+				end
+			end
+		end
+	end
+end
+local var39_upvw = false
+local Ok_upvr = Frame.Bottom.Ok
+local GUIFX_upvr = require(game.ReplicatedStorage.Library.Client.GUIFX)
+local function confirmRebirth_upvr() -- Line 127, Named "confirmRebirth"
+	--[[ Upvalues[7]:
+		[1]: TabController_upvr (readonly)
+		[2]: var15_upvw (read and write)
+		[3]: var39_upvw (read and write)
+		[4]: GUI_upvr (readonly)
+		[5]: Ok_upvr (readonly)
+		[6]: GUIFX_upvr (readonly)
+		[7]: RunService_upvr (readonly)
+	]]
+	TabController_upvr.OpenTab("RebirthDetails")
+	var15_upvw = true
+	var39_upvw = false
+	while var15_upvw do
+		RunService_upvr.RenderStepped:Wait()
+	end
+	var15_upvw = false
+	var39_upvw = false
+	for _, v in pairs(GUI_upvr.ButtonActivated(Ok_upvr, function() -- Line 130, Named "activated"
+		--[[ Upvalues[3]:
+			[1]: var15_upvw (copied, read and write)
+			[2]: var39_upvw (copied, read and write)
+			[3]: TabController_upvr (copied, readonly)
+		]]
+		var15_upvw = false
+		var39_upvw = true
+		if TabController_upvr.IsOpen("RebirthDetails") then
+			TabController_upvr.CloseTab()
+		end
+	end)) do
+		v:Disconnect()
+	end
+	GUIFX_upvr.ButtonFX(Ok_upvr)()
+	return var39_upvw
+end
+local Rewards_upvr = Frame.Rewards
+local Bottom_upvr = Frame.Bottom
+local Title_upvr = Frame.Title
+local Assets_upvr = game.ReplicatedStorage:WaitForChild("Assets")
+local function setupGui_upvr(arg1) -- Line 159, Named "setupGui"
+	--[[ Upvalues[5]:
+		[1]: Rewards_upvr (readonly)
+		[2]: FFlags_upvr (readonly)
+		[3]: Bottom_upvr (readonly)
+		[4]: Title_upvr (readonly)
+		[5]: Assets_upvr (readonly)
+	]]
+	for _, v_2 in pairs(Rewards_upvr:GetChildren()) do
+		if v_2:IsA("Frame") then
+			v_2:Destroy()
+		end
+	end
+	if FFlags_upvr.Get(FFlags_upvr.Keys.RebirthReset) then
+		Bottom_upvr.Notice.Visible = false
+		Bottom_upvr.Notice2.Visible = true
+	else
+		Bottom_upvr.Notice.Visible = true
+		Bottom_upvr.Notice2.Visible = false
+	end
+	Bottom_upvr.Notice.Visible = true
+	Bottom_upvr.Notice2.Visible = false
+	if not arg1.RebirthUnlocks then
+	else
+		Title_upvr.Text = arg1.DisplayName
+		for i_8, v_8 in ipairs(arg1.RebirthUnlocks) do
+			local clone = Assets_upvr.UI.Rebirth.Details.Reward:Clone()
+			clone.Icon.Image = v_8.Icon
+			local GuiTitle = v_8.GuiTitle
+			if not GuiTitle then
+				GuiTitle = v_8.Title
+			end
+			clone.Title.Text = GuiTitle
+			clone.Desc.Text = v_8.Desc
+			clone.LayoutOrder = i_8
+			clone.Parent = Rewards_upvr
+		end
+	end
+end
+local Variables_upvr = require(game.ReplicatedStorage.Library.Variables)
+local Functions_upvr = require(game.ReplicatedStorage.Library.Functions)
+local LocalPlayer_upvr = game.Players.LocalPlayer
+function getTargetShrine() -- Line 196
+	--[[ Upvalues[7]:
+		[1]: FFlags_upvr (readonly)
+		[2]: Variables_upvr (readonly)
+		[3]: RebirthCmds_upvr (readonly)
+		[4]: ZoneCmds_upvr (readonly)
+		[5]: tbl_upvr (readonly)
+		[6]: Functions_upvr (readonly)
+		[7]: LocalPlayer_upvr (readonly)
+	]]
+	local var74
+	if not FFlags_upvr.Get(FFlags_upvr.Keys.Zones_RequireRebirth) then return end
+	if Variables_upvr.IsRebirthing then return end
+	local any_GetNextRebirth_result1 = RebirthCmds_upvr.GetNextRebirth()
+	if not any_GetNextRebirth_result1 then return end
+	local _, any_GetMaxOwnedZone_result2 = ZoneCmds_upvr.GetMaxOwnedZone()
+	var74 = any_GetMaxOwnedZone_result2.ZoneNumber
+	if var74 < any_GetNextRebirth_result1.ZoneNumberRequired then return end
+	var74 = nil
+	for i_3, v_3 in pairs(tbl_upvr) do
+		if i_3 == any_GetNextRebirth_result1.RebirthNumber then
+			var74 = v_3
+		end
+	end
+	if not var74 then return end
+	local any_GetPivot_result1 = var74:GetPivot()
+	if not any_GetPivot_result1 then return end
+	if not Functions_upvr.VerifyPlayerMagnitude(LocalPlayer_upvr, any_GetPivot_result1.Position, 150) then return end
+	return any_GetPivot_result1.Position
+end
+local ArrowPointer3D_upvr = require(game.ReplicatedStorage.Library.Client.WorldFX.ArrowPointer3D)
+function initArrow(arg1) -- Line 241
+	--[[ Upvalues[1]:
+		[1]: ArrowPointer3D_upvr (readonly)
+	]]
+	return ArrowPointer3D_upvr({
+		Amplitude = 1;
+		Radius = 6;
+		Blink = true;
+		Target = arg1 + Vector3.new(0, 3, 0);
+	})
+end
+local Directory_upvr = require(game.ReplicatedStorage.Library.Directory)
+local Message_upvr = require(game.ReplicatedStorage.Library.Client.Message)
+local ZonesUtil_upvr = require(game.ReplicatedStorage.Library.Util.ZonesUtil)
+MachineCmds.AddApproachListener("RebirthShrine", function(arg1) -- Line 252
+	--[[ Upvalues[10]:
+		[1]: Directory_upvr (readonly)
+		[2]: FFlags_upvr (readonly)
+		[3]: Message_upvr (readonly)
+		[4]: Save_upvr (readonly)
+		[5]: tbl_upvr_2 (readonly)
+		[6]: ZoneCmds_upvr (readonly)
+		[7]: ZonesUtil_upvr (readonly)
+		[8]: setupGui_upvr (readonly)
+		[9]: confirmRebirth_upvr (readonly)
+		[10]: RebirthCmds_upvr (readonly)
+	]]
+	local RebirthNumber = arg1:GetAttribute("RebirthNumber")
+	if not RebirthNumber then
+		error("No RebirthNumber attribute set!")
+	else
+		local var89 = Directory_upvr.Rebirths[tostring(RebirthNumber)]
+		if not var89 then
+			error("Could not find rebirth with id", RebirthNumber)
+			return
+		end
+		if not FFlags_upvr.Get(FFlags_upvr.Keys.Rebirthing) and not FFlags_upvr.CanBypass() then
+			Message_upvr.New("Sorry! This is disabled right now, try again soon!", {
+				err = true;
+			})
+			return
+		end
+		local any_Get_result1 = Save_upvr.Get()
+		assert(any_Get_result1)
+		if not tbl_upvr_2[RebirthNumber] or var89.RebirthNumber <= any_Get_result1.Rebirths then return end
+		if any_Get_result1.Rebirths + 1 < var89.RebirthNumber then
+			Message_upvr.New(string.format("You must complete rebirth %d first!", any_Get_result1.Rebirths + 1))
+			return
+		end
+		local _, any_GetMaxOwnedZone_result2_2 = ZoneCmds_upvr.GetMaxOwnedZone()
+		if any_GetMaxOwnedZone_result2_2.ZoneNumber < var89.ZoneNumberRequired then
+			Message_upvr.New(`You must reach {ZonesUtil_upvr.GetZoneFromNumber(var89.ZoneNumberRequired)} to access Rebirth {var89.RebirthNumber}`)
+			return
+		end
+		setupGui_upvr(var89)
+		if not confirmRebirth_upvr() then return end
+		if RebirthCmds_upvr.Rebirth(tostring(RebirthNumber)) then
+			tbl_upvr_2[RebirthNumber] = false
+		end
+	end
+end)
+Save_upvr.GetStatChangedSignal("Rebirths"):Connect(function() -- Line 304
+	--[[ Upvalues[1]:
+		[1]: tbl_upvr_3 (readonly)
+	]]
+	for i_4, _ in pairs(tbl_upvr_3) do
+		updateShrine(i_4)
+	end
+end)
+TabController_upvr.AddCloseListener(function(arg1) -- Line 310
+	--[[ Upvalues[1]:
+		[1]: var15_upvw (read and write)
+	]]
+	if arg1 == "RebirthDetails" then
+		var15_upvw = false
+	end
+end)
+MachineCmds.MachineLoaded:Connect(function(arg1) -- Line 316
+	--[[ Upvalues[1]:
+		[1]: init_upvr (readonly)
+	]]
+	if arg1.MachineName == "RebirthShrine" then
+		init_upvr(arg1)
+	end
+end)
+MachineCmds.MachineRemoved:Connect(function(arg1) -- Line 322
+	--[[ Upvalues[3]:
+		[1]: tbl_upvr_3 (readonly)
+		[2]: tbl_upvr (readonly)
+		[3]: tbl_upvr_2 (readonly)
+	]]
+	if arg1.MachineName == "RebirthShrine" then
+		tbl_upvr_3[arg1.Model] = nil
+		tbl_upvr[arg1.Model:GetAttribute("RebirthNumber")] = nil
+		tbl_upvr_2[arg1.Model:GetAttribute("RebirthNumber")] = nil
+	end
+end)
+for _, v_5 in ipairs(MachineCmds.GetAll("RebirthShrine")) do
+	init_upvr(v_5)
+end
+task.spawn(function() -- Line 333
+	local var107
+	while task.wait(1) do
+		local getTargetShrine_result1 = getTargetShrine()
+		if getTargetShrine_result1 and not var107 then
+		elseif not getTargetShrine_result1 and initArrow(getTargetShrine_result1) then
+			-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+			initArrow(getTargetShrine_result1)()
+		end
+	end
+end)
