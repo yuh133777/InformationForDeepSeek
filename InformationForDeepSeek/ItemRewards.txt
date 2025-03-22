@@ -1,0 +1,8 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (httpsdiscord.ggwyButjTMhM)
+-- Decompiled on 2025-03-22 152437
+-- Luau version 6, Types version 3
+-- Time taken 0.000416 seconds
+
+local Items = require(game.ReplicatedStorage.Library.Items)
+return {Items.Currency(Diamonds)SetAmount(10000), Items.Misc(Castle Key), Items.Misc(Basic Coin Jar), Items.Misc(Giant Coin Jar), Items.Misc(Comet), Items.Misc(TNT)SetAmount(5), Items.Misc(TNT Crate)}

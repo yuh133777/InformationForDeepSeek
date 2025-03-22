@@ -1,0 +1,67 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-03-22 15:18:12
+-- Luau version 6, Types version 3
+-- Time taken: 0.001745 seconds
+
+local module = {}
+require(game.ReplicatedStorage:WaitForChild("ModuleLoader"))(require(game.ReplicatedStorage.DirectoryLoader):WaitForChild(script.Name), module, {
+	warn = function(...) -- Line 11, Named "warn"
+		warn(...)
+	end;
+	rootName = "Children";
+	typeCast = "Types.dir_schema";
+	shouldInject = true;
+	noPrint = true;
+})
+setmetatable(module, {
+	__index = function(arg1, arg2) -- Line 18, Named "__index"
+		error(`Unknown Directory {script.Name}.'{arg2}'`)
+	end;
+})
+table.freeze(module)
+if game:GetService("RunService"):IsServer() and game:GetService("RunService"):IsStudio() then
+	for _, v_upvr in pairs(module) do
+		local pcall_result1, pcall_result2 = pcall(function() -- Line 26
+			--[[ Upvalues[1]:
+				[1]: v_upvr (readonly)
+			]]
+			-- KONSTANTERROR: [0] 1. Error Block 27 start (CF ANALYSIS FAILED)
+			local var10
+			if type(v_upvr.MachineName) ~= "string" then
+				var10 = false
+			else
+				var10 = true
+			end
+			assert(var10)
+			if type(v_upvr.Cooldown) ~= "number" then
+				var10 = false
+				-- KONSTANTWARNING: GOTO [26] #20
+			end
+			-- KONSTANTERROR: [0] 1. Error Block 27 end (CF ANALYSIS FAILED)
+			-- KONSTANTERROR: [25] 19. Error Block 31 start (CF ANALYSIS FAILED)
+			var10 = true
+			assert(var10)
+			if type(v_upvr.Loot) ~= "table" then
+				var10 = false
+			else
+				var10 = true
+			end
+			assert(var10)
+			var10 = true
+			if v_upvr.Requirement ~= nil then
+				if type(v_upvr.Requirement) ~= "function" then
+					var10 = false
+				else
+					var10 = true
+				end
+			end
+			assert(var10)
+			-- KONSTANTERROR: [25] 19. Error Block 31 end (CF ANALYSIS FAILED)
+		end)
+		if not pcall_result1 then
+			warn("[Directory Validator]", script.Name, v_upvr._script, tostring(pcall_result2))
+		end
+	end
+end
+return module

@@ -1,0 +1,32 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-03-22 15:25:02
+-- Luau version 6, Types version 3
+-- Time taken: 0.000764 seconds
+
+return {
+	DisplayName = "Rebirth One";
+	RebirthNumber = tonumber(script.Name:match("%d+"));
+	ZoneNumberRequired = 25;
+	StrengthPowerBoost = 75;
+	ItemRewards = script:WaitForChild("ItemRewards");
+	BoostDesc = "+75% Pet Damage";
+	RebirthUnlocks = {{
+		Icon = "rbxassetid://15048276980";
+		Title = "Teleport";
+		Desc = "Travel anywhere by portable cannon!";
+	}, {
+		Icon = "rbxassetid://15257082607";
+		Title = "+75% Pet Strength";
+		Desc = "Pets are 75% stronger, permanently!";
+		GuiTitle = "Strength";
+	}, {
+		Icon = "rbxassetid://15055553528";
+		Title = "Castle Key";
+		Desc = "Access to Trading Plaza, Spinny Wheel, and more!";
+	}, {
+		Icon = "rbxassetid://15048278140";
+		Title = "Rewards";
+		Desc = "A bunch of rewards!";
+	}};
+}

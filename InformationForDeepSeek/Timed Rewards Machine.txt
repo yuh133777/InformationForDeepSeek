@@ -1,0 +1,237 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-03-22 15:19:34
+-- Luau version 6, Types version 3
+-- Time taken: 0.005379 seconds
+
+-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+local Assets_upvr = game.ReplicatedStorage:WaitForChild("Assets")
+local Message_upvr = require(game.ReplicatedStorage.Library.Client.Message)
+local Signal_upvr = require(game.ReplicatedStorage.Library.Signal)
+local Network_upvr = require(game.ReplicatedStorage.Library.Client.Network)
+local Directory_upvr = require(game.ReplicatedStorage.Library.Directory)
+local FFlags_upvr = require(game.ReplicatedStorage.Library.Client.FFlags)
+local Save_upvr = require(game.ReplicatedStorage.Library.Client.Save)
+local Functions_upvr = require(game.ReplicatedStorage.Library.Functions)
+local MachineCmds_upvr = require(game.ReplicatedStorage.Library.Client.MachineCmds)
+local any_Debounce_result1_upvr = Functions_upvr.Debounce()
+while not Save_upvr.Get() do
+	task.wait()
+end
+task.wait()
+local function _(arg1) -- Line 24, Named "SmallDailyDiamondsAnimation"
+	--[[ Upvalues[2]:
+		[1]: Assets_upvr (readonly)
+		[2]: Functions_upvr (readonly)
+	]]
+	local clone_2 = Assets_upvr.Particles["Timed Rewards"].Sparkles:Clone()
+	clone_2.Parent = arg1:FindFirstChild("Pad")
+	clone_2:Emit(50)
+	Functions_upvr.AddDebris(clone_2, 5)
+end
+local function _(arg1) -- Line 34, Named "isMachineReady"
+	--[[ Upvalues[2]:
+		[1]: Save_upvr (readonly)
+		[2]: Directory_upvr (readonly)
+	]]
+	local any_Get_result1_4 = Save_upvr.Get()
+	if not any_Get_result1_4 then
+		return false
+	end
+	local var21 = Directory_upvr.TimedRewards[arg1]
+	if not var21 then
+		return false
+	end
+	local var22 = any_Get_result1_4.TimedRewardTimestamps[arg1]
+	local var23 = not var22
+	if not var23 then
+		if var21.Cooldown >= workspace:GetServerTimeNow() - var22 then
+			var23 = false
+		else
+			var23 = true
+		end
+	end
+	return var23
+end
+local function _(arg1, arg2) -- Line 48, Named "redeem"
+	--[[ Upvalues[7]:
+		[1]: any_Debounce_result1_upvr (readonly)
+		[2]: Save_upvr (readonly)
+		[3]: Directory_upvr (readonly)
+		[4]: FFlags_upvr (readonly)
+		[5]: Network_upvr (readonly)
+		[6]: Signal_upvr (readonly)
+		[7]: Message_upvr (readonly)
+	]]
+	any_Debounce_result1_upvr(1, function() -- Line 49
+		--[[ Upvalues[8]:
+			[1]: arg1 (readonly)
+			[2]: Save_upvr (copied, readonly)
+			[3]: Directory_upvr (copied, readonly)
+			[4]: FFlags_upvr (copied, readonly)
+			[5]: Network_upvr (copied, readonly)
+			[6]: Signal_upvr (copied, readonly)
+			[7]: arg2 (readonly)
+			[8]: Message_upvr (copied, readonly)
+		]]
+		local var32 = arg1
+		local any_Get_result1_2 = Save_upvr.Get()
+		local var34
+		if not any_Get_result1_2 then
+			var34 = false
+		else
+			local var35 = Directory_upvr.TimedRewards[var32]
+			if not var35 then
+				var34 = false
+			else
+				local var36 = any_Get_result1_2.TimedRewardTimestamps[var32]
+				var34 = not var36
+				if not var34 then
+					if var35.Cooldown >= workspace:GetServerTimeNow() - var36 then
+						var34 = false
+					else
+						var34 = true
+					end
+				end
+			end
+		end
+		if not var34 then
+		else
+			var34 = FFlags_upvr.Get(FFlags_upvr.Keys.TimedReward_Global)
+			if not var34 then
+				var34 = FFlags_upvr.CanBypass()
+				if not var34 then
+					var34 = false
+					return var34, "Sorry! This is disabled right now, try again soon!"
+				end
+			end
+			var34 = "TimedReward_"..string.gsub(arg1, ' ', "")
+			if not FFlags_upvr.Keys[var34] then
+				warn("[FFlags] Failed to find key for Timed Reward: "..arg1)
+			end
+			if FFlags_upvr.Keys[var34] and not FFlags_upvr.Get(FFlags_upvr.Keys[var34]) and not FFlags_upvr.CanBypass() then
+				return false, "Sorry! This is disabled right now, try again soon!"
+			end
+			local any_Invoke_result1, any_Invoke_result2_3 = Network_upvr.Invoke("DailyRewards_Redeem", arg1)
+			if any_Invoke_result1 then
+				Signal_upvr.Fire("DailyRewards_Success", arg1, arg2)
+				return
+			end
+			if any_Invoke_result2_3 then
+				Message_upvr.New(any_Invoke_result2_3)
+			end
+		end
+	end)
+end
+local function updateTimers_upvr() -- Line 74, Named "updateTimers"
+	--[[ Upvalues[4]:
+		[1]: Save_upvr (readonly)
+		[2]: Directory_upvr (readonly)
+		[3]: MachineCmds_upvr (readonly)
+		[4]: Functions_upvr (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 26 start (CF ANALYSIS FAILED)
+	if not Save_upvr.Get() then return end
+	-- KONSTANTERROR: [0] 1. Error Block 26 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [105] 79. Error Block 23 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [105] 79. Error Block 23 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [17] 14. Error Block 4 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [17] 14. Error Block 4 end (CF ANALYSIS FAILED)
+end
+for i_upvr, v in Directory_upvr.TimedRewards do
+	MachineCmds_upvr.AddApproachListener(v.MachineName, function(arg1) -- Line 109
+		--[[ Upvalues[8]:
+			[1]: i_upvr (readonly)
+			[2]: any_Debounce_result1_upvr (readonly)
+			[3]: Save_upvr (readonly)
+			[4]: Directory_upvr (readonly)
+			[5]: FFlags_upvr (readonly)
+			[6]: Network_upvr (readonly)
+			[7]: Signal_upvr (readonly)
+			[8]: Message_upvr (readonly)
+		]]
+		any_Debounce_result1_upvr(1, function() -- Line 49
+			--[[ Upvalues[8]:
+				[1]: i_upvr (readonly)
+				[2]: Save_upvr (copied, readonly)
+				[3]: Directory_upvr (copied, readonly)
+				[4]: FFlags_upvr (copied, readonly)
+				[5]: Network_upvr (copied, readonly)
+				[6]: Signal_upvr (copied, readonly)
+				[7]: arg1 (readonly)
+				[8]: Message_upvr (copied, readonly)
+			]]
+			-- KONSTANTERROR: [0] 1. Error Block 42 start (CF ANALYSIS FAILED)
+			local var41 = i_upvr
+			local any_Get_result1_3 = Save_upvr.Get()
+			local var43
+			if not any_Get_result1_3 then
+				var43 = false
+				-- KONSTANTWARNING: GOTO [32] #26
+			end
+			-- KONSTANTERROR: [0] 1. Error Block 42 end (CF ANALYSIS FAILED)
+			-- KONSTANTERROR: [8] 8. Error Block 43 start (CF ANALYSIS FAILED)
+			local var44 = Directory_upvr.TimedRewards[var41]
+			if not var44 then
+				var43 = false
+			else
+				local var45 = any_Get_result1_3.TimedRewardTimestamps[var41]
+				var43 = not var45
+				if not var43 then
+					if var44.Cooldown >= workspace:GetServerTimeNow() - var45 then
+						var43 = false
+					else
+						var43 = true
+					end
+				end
+			end
+			if not var43 then
+			else
+				var43 = FFlags_upvr.Get(FFlags_upvr.Keys.TimedReward_Global)
+				if not var43 then
+					var43 = FFlags_upvr.CanBypass()
+					if not var43 then
+						var43 = false
+						return var43, "Sorry! This is disabled right now, try again soon!"
+					end
+				end
+				var43 = "TimedReward_"..string.gsub(i_upvr, ' ', "")
+				if not FFlags_upvr.Keys[var43] then
+					warn("[FFlags] Failed to find key for Timed Reward: "..i_upvr)
+				end
+				if FFlags_upvr.Keys[var43] and not FFlags_upvr.Get(FFlags_upvr.Keys[var43]) and not FFlags_upvr.CanBypass() then
+					return false, "Sorry! This is disabled right now, try again soon!"
+				end
+				local any_Invoke_result1_3, any_Invoke_result2 = Network_upvr.Invoke("DailyRewards_Redeem", i_upvr)
+				if any_Invoke_result1_3 then
+					Signal_upvr.Fire("DailyRewards_Success", i_upvr, arg1)
+					return
+				end
+				if any_Invoke_result2 then
+					Message_upvr.New(any_Invoke_result2)
+				end
+				-- KONSTANTERROR: [8] 8. Error Block 43 end (CF ANALYSIS FAILED)
+			end
+		end)
+	end)
+end
+Signal_upvr.Fired("DailyRewards_Success"):Connect(function(arg1, arg2) -- Line 114
+	--[[ Upvalues[2]:
+		[1]: Assets_upvr (readonly)
+		[2]: Functions_upvr (readonly)
+	]]
+	if arg1 == "SmallDailyDiamonds" then
+		local clone = Assets_upvr.Particles["Timed Rewards"].Sparkles:Clone()
+		clone.Parent = arg2:FindFirstChild("Pad")
+		clone:Emit(50)
+		Functions_upvr.AddDebris(clone, 5)
+	end
+end)
+task.spawn(function() -- Line 120
+	--[[ Upvalues[1]:
+		[1]: updateTimers_upvr (readonly)
+	]]
+	while task.wait(0.5) do
+		updateTimers_upvr()
+	end
+end)

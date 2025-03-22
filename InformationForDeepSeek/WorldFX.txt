@@ -1,0 +1,39 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-03-22 15:28:48
+-- Luau version 6, Types version 3
+-- Time taken: 0.001255 seconds
+
+local module = {
+	AddCurrency = require(script:WaitForChild("AddCurrency"));
+	CoinSelection = require(script:WaitForChild("CoinSelection"));
+	Confetti = require(script:WaitForChild("Confetti"));
+	Damage = require(script:WaitForChild("Damage"));
+	Fireworks = require(script:WaitForChild("Fireworks"));
+	ModelFlash = require(script:WaitForChild("ModelFlash"));
+	QuestGlow = require(script:WaitForChild("QuestGlow"));
+	RewardBillboard = require(script:WaitForChild("RewardBillboard"));
+	RewardImage = require(script:WaitForChild("RewardImage"));
+	RewardItem = require(script:WaitForChild("RewardItem"));
+	Selection = require(script:WaitForChild("Selection"));
+	SpinningChests = require(script:WaitForChild("SpinningChests"));
+	GateUnlock = require(script:WaitForChild("GateUnlock"));
+	AnimatePad = require(script:WaitForChild("AnimatePad"));
+	PlayerTeleport = require(script:WaitForChild("PlayerTeleport"));
+	Poof = require(script:WaitForChild("Poof"));
+	SmallPuff = require(script:WaitForChild("SmallPuff"));
+	Pads = require(script:WaitForChild("Pads"));
+	AnimateChest = require(script:WaitForChild("AnimateChest"));
+	Exclamation = require(script:WaitForChild("Exclamation"));
+	Sparkles = require(script:WaitForChild("Sparkles"));
+	RainbowGlow = require(script:WaitForChild("RainbowGlow"));
+	Flash = require(script:WaitForChild("Flash"));
+	Arrow3D = require(script:WaitForChild("Arrow3D"));
+	ArrowPointer3D = require(script:WaitForChild("ArrowPointer3D"));
+}
+require(game.ReplicatedStorage:WaitForChild("ModuleLoader"))(script, module, {
+	warn = function(...) -- Line 32, Named "warn"
+		warn(...)
+	end;
+})
+return module

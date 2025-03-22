@@ -1,0 +1,86 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-03-22 15:29:20
+-- Luau version 6, Types version 3
+-- Time taken: 0.003137 seconds
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local __DEBRIS_upvr = workspace:WaitForChild("__DEBRIS")
+local Assets_upvr = ReplicatedStorage:WaitForChild("Assets")
+local Functions_upvr = require(ReplicatedStorage:WaitForChild("Library").Functions)
+local RunService_upvr = game:GetService("RunService")
+return function(arg1, arg2, arg3, arg4) -- Line 35
+	--[[ Upvalues[4]:
+		[1]: __DEBRIS_upvr (readonly)
+		[2]: Assets_upvr (readonly)
+		[3]: Functions_upvr (readonly)
+		[4]: RunService_upvr (readonly)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	local var23
+	local function INLINED() -- Internal function, doesn't exist in bytecode
+		var23 = CFrame.new(arg1)
+		return var23
+	end
+	if typeof(arg1) ~= "Vector3" or not INLINED() then
+		var23 = arg1
+	end
+	local var24_upvr = arg4 or 2
+	local Part_upvr = Instance.new("Part")
+	Part_upvr.Anchored = true
+	Part_upvr.CanCollide = false
+	Part_upvr.Size = Vector3.new(0.05000, 0.05000, 0.05000)
+	Part_upvr.Transparency = 1
+	Part_upvr.CFrame = var23
+	Part_upvr.Name = "RewardBillboard"
+	Part_upvr.Parent = __DEBRIS_upvr
+	local clone_upvr = Assets_upvr.Billboards:FindFirstChild(arg3):Clone()
+	if arg2 then
+		for _, v in ipairs(clone_upvr:GetDescendants()) do
+			if v:IsA("TextLabel") then
+				v.Text = arg2
+			end
+		end
+	end
+	clone_upvr.Size = UDim2.new(clone_upvr.Size.X.Scale * 0.5, clone_upvr.Size.X.Offset * 0.5, clone_upvr.Size.Y.Scale * 0.5, clone_upvr.Size.Y.Offset * 0.5)
+	Functions_upvr.Tween(clone_upvr, {
+		Size = clone_upvr.Size;
+	}, {0.5, "Expo", "Out"})
+	clone_upvr.Parent = Part_upvr
+	task.spawn(function() -- Line 88
+		--[[ Upvalues[4]:
+			[1]: clone_upvr (readonly)
+			[2]: var24_upvr (readonly)
+			[3]: Functions_upvr (copied, readonly)
+			[4]: RunService_upvr (copied, readonly)
+		]]
+		local os_clock_result1 = os.clock()
+		while clone_upvr and clone_upvr.Parent and os.clock() - os_clock_result1 <= var24_upvr do
+			clone_upvr.StudsOffsetWorldSpace += Vector3.new(0, 3 * Functions_upvr.Easing((os.clock() - os_clock_result1) / var24_upvr, "Linear", "InOut"), 0)
+			RunService_upvr.RenderStepped:Wait()
+		end
+	end)
+	for _, v_2 in ipairs(clone_upvr:GetDescendants()) do
+		if v_2.ClassName == "TextLabel" then
+			local _ = {
+				TextTransparency = 1;
+				TextStrokeTransparency = 1;
+			}
+			local _ = {0.5, "Linear", "Out"}
+		elseif v_2.ClassName == "ImageLabel" then
+		elseif v_2.ClassName == "UIStroke" then
+			Functions_upvr.Tween(v_2, {
+				Transparency = 1;
+			}, {0.5, "Linear", "Out"}, var24_upvr - 0.5)
+		end
+	end
+	Functions_upvr.Tween(v_2, {
+		ImageTransparency = 1;
+	}, {0.5, "Linear", "Out"}, var24_upvr - 0.5).Completed:Connect(function() -- Line 112
+		--[[ Upvalues[1]:
+			[1]: Part_upvr (readonly)
+		]]
+		Part_upvr:Destroy()
+	end)
+	return clone_upvr, Part_upvr
+end

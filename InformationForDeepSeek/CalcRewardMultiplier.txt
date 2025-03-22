@@ -1,0 +1,21 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-03-22 15:27:30
+-- Luau version 6, Types version 3
+-- Time taken: 0.000513 seconds
+
+local CalcBreakableNerfMultiplier_upvr = require(script.Parent.CalcBreakableNerfMultiplier)
+local Map_upvr = require(game.ReplicatedStorage.Library.Functions.Map)
+function CalcDiamondRewardMultiplier(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9) -- Line 11
+	--[[ Upvalues[2]:
+		[1]: CalcBreakableNerfMultiplier_upvr (readonly)
+		[2]: Map_upvr (readonly)
+	]]
+	-- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [12] 13. Error Block 2 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [12] 13. Error Block 2 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [20] 19. Error Block 3 start (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [20] 19. Error Block 3 end (CF ANALYSIS FAILED)
+end
+return CalcDiamondRewardMultiplier

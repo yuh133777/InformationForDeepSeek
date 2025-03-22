@@ -1,0 +1,17 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-03-22 15:16:53
+-- Luau version 6, Types version 3
+-- Time taken: 0.000408 seconds
+
+return {
+	Analytics = require(script.Analytics);
+	AnalyticsReporters = require(script.AnalyticsReporters);
+	getPlatformTarget = require(script.getPlatformTarget);
+	ReportToDiagByCountryCode = require(script.ReportToDiagByCountryCode);
+	RequestTimeDiag = require(script.RequestTimeDiag);
+	Events = {
+		pageHeartbeat = require(script.Events.pageHeartbeat);
+		userInteractions = require(script.Events.userInteractions);
+	};
+}

@@ -1,0 +1,21 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-03-22 15:00:41
+-- Luau version 6, Types version 3
+-- Time taken: 0.000607 seconds
+
+local Items = require(game.ReplicatedStorage.Library.Items)
+return {
+	MachineName = "DailyDiamonds1";
+	Cooldown = 1800;
+	Loot = {require(game.ReplicatedStorage.Library.DropTable).new({{
+		Weight = 100;
+		Value = Items.Currency("Diamonds"):SetAmount(300);
+	}, {
+		Weight = 35;
+		Value = Items.Currency("Diamonds"):SetAmount(375);
+	}, {
+		Weight = 7;
+		Value = Items.Currency("Diamonds"):SetAmount(450);
+	}})};
+}

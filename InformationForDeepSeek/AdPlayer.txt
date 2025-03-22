@@ -1,0 +1,190 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-03-22 15:33:21
+-- Luau version 6, Types version 3
+-- Time taken: 0.003073 seconds
+
+local AdService_upvr = game:GetService("AdService")
+local script_upvr = script
+local Parent = script_upvr.Parent
+local Flags_upvr = require(script_upvr.Flags)
+local AdsDisplayOrder_upvr = require(Parent.AdGuiInteractivity).AdsDisplayOrder
+local CoreGui_upvr = game:GetService("CoreGui")
+local ReactRoblox_upvr = require(Parent.ReactRoblox)
+local React_upvr = require(Parent.React)
+local BaseComponent_upvr = require(script_upvr.components.BaseComponent)
+local AdPlayerComponent_upvr = require(script_upvr.components.AdPlayerComponent)
+local module = {}
+local jest_config = script_upvr["jest.config"]
+module["jest.config"] = jest_config
+if Flags_upvr.GetUseRefactoredAdPlayer() then
+	function jest_config() -- Line 15, Named "init"
+		--[[ Upvalues[8]:
+			[1]: Flags_upvr (readonly)
+			[2]: AdsDisplayOrder_upvr (readonly)
+			[3]: CoreGui_upvr (readonly)
+			[4]: ReactRoblox_upvr (readonly)
+			[5]: AdService_upvr (readonly)
+			[6]: React_upvr (readonly)
+			[7]: BaseComponent_upvr (readonly)
+			[8]: AdPlayerComponent_upvr (readonly)
+		]]
+		if not Flags_upvr.GetIsStudioTestingAdPlayerEnabledForUniverse() then
+		else
+			local ScreenGui = Instance.new("ScreenGui")
+			ScreenGui.Name = "RewardedVideoAdPlayer"
+			ScreenGui.DisplayOrder = AdsDisplayOrder_upvr.AdPlayer
+			ScreenGui.IgnoreGuiInset = true
+			ScreenGui.ResetOnSpawn = false
+			ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+			ScreenGui.Parent = CoreGui_upvr
+			local any_createRoot_result1_upvr = ReactRoblox_upvr.createRoot(ScreenGui)
+			function AdService_upvr.onDemandVideoPlayInUI(arg1) -- Line 30
+				--[[ Upvalues[6]:
+					[1]: any_createRoot_result1_upvr (readonly)
+					[2]: AdService_upvr (copied, readonly)
+					[3]: Flags_upvr (copied, readonly)
+					[4]: React_upvr (copied, readonly)
+					[5]: BaseComponent_upvr (copied, readonly)
+					[6]: AdPlayerComponent_upvr (copied, readonly)
+				]]
+				local function _(arg1_2) -- Line 31, Named "onVideoCompleted"
+					--[[ Upvalues[3]:
+						[1]: any_createRoot_result1_upvr (copied, readonly)
+						[2]: AdService_upvr (copied, readonly)
+						[3]: arg1 (readonly)
+					]]
+					any_createRoot_result1_upvr:render(nil)
+					AdService_upvr:onDemandVideoCompleteFromUI(arg1_2, arg1.encryptedAdTrackingData, arg1.encryptionMetadata, arg1.rewardDetails)
+				end
+				local var14
+				if Flags_upvr.GetEnableLuaRewardTimerUI() and arg1.durationNeededForRewardMs and arg1.durationNeededEnum == "Variable" then
+					var14 = arg1.durationNeededForRewardMs / 1000
+				end
+				local BindableEvent_upvr = Instance.new("BindableEvent")
+				local var16_upvw
+				local tbl_2 = {}
+				local tbl = {}
+				local creativeAssetUrl = arg1.creativeAssetUrl
+				tbl.creativeAssetUrl = creativeAssetUrl
+				if Flags_upvr.GetEnableLuaRewardTimerUI() then
+					creativeAssetUrl = var14
+				else
+					creativeAssetUrl = nil
+				end
+				tbl.durationNeededForReward = creativeAssetUrl
+				function tbl.onVideoFrameLoaded(arg1_3) -- Line 58
+					--[[ Upvalues[2]:
+						[1]: var16_upvw (read and write)
+						[2]: BindableEvent_upvr (readonly)
+					]]
+					var16_upvw = arg1_3
+					if BindableEvent_upvr then
+						BindableEvent_upvr:Fire()
+					end
+				end
+				function tbl.onCancel() -- Line 64
+					--[[ Upvalues[3]:
+						[1]: any_createRoot_result1_upvr (copied, readonly)
+						[2]: AdService_upvr (copied, readonly)
+						[3]: arg1 (readonly)
+					]]
+					any_createRoot_result1_upvr:render(nil)
+					AdService_upvr:onDemandVideoCompleteFromUI(Enum.ShowAdResult.ShowInterrupted, arg1.encryptedAdTrackingData, arg1.encryptionMetadata, arg1.rewardDetails)
+				end
+				function tbl.onComplete() -- Line 67
+					--[[ Upvalues[3]:
+						[1]: any_createRoot_result1_upvr (copied, readonly)
+						[2]: AdService_upvr (copied, readonly)
+						[3]: arg1 (readonly)
+					]]
+					any_createRoot_result1_upvr:render(nil)
+					AdService_upvr:onDemandVideoCompleteFromUI(Enum.ShowAdResult.ShowCompleted, arg1.encryptedAdTrackingData, arg1.encryptionMetadata, arg1.rewardDetails)
+				end
+				function tbl.showWhyThisAd() -- Line 70
+					--[[ Upvalues[1]:
+						[1]: AdService_upvr (copied, readonly)
+					]]
+					AdService_upvr:HandleWhyThisAdClicked("advertiserName", "payerName")
+				end
+				function tbl.getReportAdInfo() -- Line 73
+					--[[ Upvalues[1]:
+						[1]: arg1 (readonly)
+					]]
+					return {
+						encryptedAdTrackingData = arg1.encryptedAdTrackingData;
+						encryptionMetadata = arg1.encryptionMetadata;
+						creativeAssetUrl = arg1.creativeAssetUrl;
+					}
+				end
+				tbl_2[1] = React_upvr.createElement(AdPlayerComponent_upvr, tbl)
+				any_createRoot_result1_upvr:render(React_upvr.createElement(BaseComponent_upvr, {}, tbl_2))
+				if not var16_upvw then
+					BindableEvent_upvr.Event:Wait()
+				end
+				BindableEvent_upvr:Destroy()
+				return var16_upvw
+			end
+		end
+	end
+else
+	jest_config = function() -- Line 92, Named "init_old"
+		--[[ Upvalues[3]:
+			[1]: Flags_upvr (readonly)
+			[2]: script_upvr (readonly)
+			[3]: AdService_upvr (readonly)
+		]]
+		if not Flags_upvr.GetIsStudioTestingAdPlayerEnabledForUniverse() then
+		else
+			local var21_upvw
+			local function _() -- Line 99, Named "cleanupCurrentAdPlayer"
+				--[[ Upvalues[1]:
+					[1]: var21_upvw (read and write)
+				]]
+				if var21_upvw then
+					var21_upvw:Destroy()
+					var21_upvw = nil
+				end
+			end
+			local AdPlayer_upvr = require(script_upvr.AdPlayer)
+			AdService_upvr.onDemandVideoPlayInUI = function(arg1) -- Line 106
+				--[[ Upvalues[3]:
+					[1]: var21_upvw (read and write)
+					[2]: AdPlayer_upvr (readonly)
+					[3]: AdService_upvr (copied, readonly)
+				]]
+				if var21_upvw then
+					var21_upvw:Destroy()
+					var21_upvw = nil
+				end
+				var21_upvw = AdPlayer_upvr.new(arg1, function() -- Line 109
+					--[[ Upvalues[3]:
+						[1]: AdService_upvr (copied, readonly)
+						[2]: arg1 (readonly)
+						[3]: var21_upvw (copied, read and write)
+					]]
+					AdService_upvr:onDemandVideoCompleteFromUI(Enum.ShowAdResult.ShowCompleted, arg1.encryptedAdTrackingData, arg1.encryptionMetadata, arg1.rewardDetails)
+					if var21_upvw then
+						var21_upvw:Destroy()
+						var21_upvw = nil
+					end
+				end, function() -- Line 117
+					--[[ Upvalues[3]:
+						[1]: AdService_upvr (copied, readonly)
+						[2]: arg1 (readonly)
+						[3]: var21_upvw (copied, read and write)
+					]]
+					AdService_upvr:onDemandVideoCompleteFromUI(Enum.ShowAdResult.ShowInterrupted, arg1.encryptedAdTrackingData, arg1.encryptionMetadata, arg1.rewardDetails)
+					if var21_upvw then
+						var21_upvw:Destroy()
+						var21_upvw = nil
+					end
+				end)
+				var21_upvw.videoFrameReadyEvent.Event:Wait()
+				return var21_upvw:GetVideoFrame()
+			end
+		end
+	end
+end
+module.init = jest_config
+return module

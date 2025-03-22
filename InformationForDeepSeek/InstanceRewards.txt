@@ -1,0 +1,372 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-03-22 15:23:40
+-- Luau version 6, Types version 3
+-- Time taken: 0.006235 seconds
+
+local Items = require(game.ReplicatedStorage.Library.Items)
+local DropTable = require(game.ReplicatedStorage.Library.DropTable)
+return DropTable.withAmount(9, {{
+	Weight = 5;
+	Value = DropTable.new({{
+		Weight = 1;
+		Value = Items.Currency("Diamonds"):SetAmount(250);
+	}, {
+		Weight = 0.3;
+		Value = Items.Currency("Diamonds"):SetAmount(750);
+	}, {
+		Weight = 0.08;
+		Value = Items.Currency("Diamonds"):SetAmount(1000);
+	}});
+}, {
+	Weight = 1;
+	Value = DropTable.new({{
+		Weight = 1;
+		Value = Items.Enchant("Strong Pets"):SetTier(2);
+	}, {
+		Weight = 0.1;
+		Value = Items.Enchant("Strong Pets"):SetTier(3);
+	}, {
+		Weight = 0.025;
+		Value = Items.Enchant("Strong Pets"):SetTier(4);
+	}, {
+		Weight = 0.005;
+		Value = Items.Enchant("Strong Pets"):SetTier(5);
+	}});
+}, {
+	Weight = 1;
+	Value = DropTable.new({{
+		Weight = 1;
+		Value = Items.Enchant("Coins"):SetTier(2);
+	}, {
+		Weight = 0.1;
+		Value = Items.Enchant("Coins"):SetTier(3);
+	}, {
+		Weight = 0.025;
+		Value = Items.Enchant("Coins"):SetTier(4);
+	}, {
+		Weight = 0.005;
+		Value = Items.Enchant("Coins"):SetTier(5);
+	}});
+}, {
+	Weight = 1;
+	Value = DropTable.new({{
+		Weight = 1;
+		Value = Items.Enchant("Criticals"):SetTier(2);
+	}, {
+		Weight = 0.1;
+		Value = Items.Enchant("Criticals"):SetTier(3);
+	}, {
+		Weight = 0.0025;
+		Value = Items.Enchant("Criticals"):SetTier(4);
+	}, {
+		Weight = 0.0005;
+		Value = Items.Enchant("Criticals"):SetTier(5);
+	}});
+}, {
+	Weight = 1;
+	Value = DropTable.new({{
+		Weight = 1;
+		Value = Items.Enchant("Treasure Hunter"):SetTier(2);
+	}, {
+		Weight = 0.1;
+		Value = Items.Enchant("Treasure Hunter"):SetTier(3);
+	}, {
+		Weight = 0.0025;
+		Value = Items.Enchant("Treasure Hunter"):SetTier(4);
+	}, {
+		Weight = 0.0005;
+		Value = Items.Enchant("Treasure Hunter"):SetTier(5);
+	}});
+}, {
+	Weight = 1.3;
+	Value = DropTable.new({{
+		Weight = 1;
+		Value = Items.Enchant("Tap Power"):SetTier(2);
+	}, {
+		Weight = 0.1;
+		Value = Items.Enchant("Tap Power"):SetTier(3);
+	}, {
+		Weight = 0.0025;
+		Value = Items.Enchant("Tap Power"):SetTier(4);
+	}, {
+		Weight = 0.0005;
+		Value = Items.Enchant("Tap Power"):SetTier(5);
+	}});
+}, {
+	Weight = 1.5;
+	Value = DropTable.new({{
+		Weight = 1;
+		Value = Items.Enchant("Walkspeed"):SetTier(2);
+	}, {
+		Weight = 0.1;
+		Value = Items.Enchant("Walkspeed"):SetTier(3);
+	}, {
+		Weight = 0.0025;
+		Value = Items.Enchant("Walkspeed"):SetTier(4);
+	}, {
+		Weight = 0.0005;
+		Value = Items.Enchant("Walkspeed"):SetTier(5);
+	}});
+}, {
+	Weight = 0.5;
+	Value = DropTable.new({{
+		Weight = 1;
+		Value = Items.Enchant("Diamonds"):SetTier(2);
+	}, {
+		Weight = 0.1;
+		Value = Items.Enchant("Diamonds"):SetTier(3);
+	}, {
+		Weight = 0.0025;
+		Value = Items.Enchant("Diamonds"):SetTier(4);
+	}, {
+		Weight = 0.0005;
+		Value = Items.Enchant("Diamonds"):SetTier(5);
+	}});
+}, {
+	Weight = 1;
+	Value = DropTable.new({{
+		Weight = 1;
+		Value = Items.Enchant("Lucky Eggs"):SetTier(2);
+	}, {
+		Weight = 0.1;
+		Value = Items.Enchant("Lucky Eggs"):SetTier(3);
+	}, {
+		Weight = 0.0025;
+		Value = Items.Enchant("Lucky Eggs"):SetTier(4);
+	}, {
+		Weight = 0.0005;
+		Value = Items.Enchant("Lucky Eggs"):SetTier(5);
+	}});
+}, {
+	Weight = 0.03333333333333333;
+	Value = DropTable.new({{
+		Weight = 1;
+		Value = Items.Enchant("Happy Pets");
+	}, {
+		Weight = 0.125;
+		Value = Items.Enchant("Blast");
+	}, {
+		Weight = (1/60);
+		Value = Items.Enchant("Lightning");
+	}, {
+		Weight = 0.014285714285714285;
+		Value = Items.Enchant("Midas Touch");
+	}, {
+		Weight = 0.006666666666666667;
+		Value = Items.Enchant("Fortune");
+	}});
+}, {
+	Weight = 1;
+	Value = DropTable.new({{
+		Weight = 1;
+		Value = Items.Potion("Coins"):SetTier(2);
+	}, {
+		Weight = 0.1;
+		Value = Items.Potion("Coins"):SetTier(3);
+	}, {
+		Weight = 0.025;
+		Value = Items.Potion("Coins"):SetTier(4);
+	}, {
+		Weight = 0.005;
+		Value = Items.Potion("Coins"):SetTier(5);
+	}});
+}, {
+	Weight = 1;
+	Value = DropTable.new({{
+		Weight = 1;
+		Value = Items.Potion("Damage"):SetTier(2);
+	}, {
+		Weight = 0.1;
+		Value = Items.Potion("Damage"):SetTier(3);
+	}, {
+		Weight = 0.025;
+		Value = Items.Potion("Damage"):SetTier(4);
+	}, {
+		Weight = 0.005;
+		Value = Items.Potion("Damage"):SetTier(5);
+	}});
+}, {
+	Weight = 1;
+	Value = DropTable.new({{
+		Weight = 1;
+		Value = Items.Potion("Lucky"):SetTier(2);
+	}, {
+		Weight = 0.1;
+		Value = Items.Potion("Lucky"):SetTier(3);
+	}, {
+		Weight = 0.025;
+		Value = Items.Potion("Lucky"):SetTier(4);
+	}, {
+		Weight = 0.005;
+		Value = Items.Potion("Lucky"):SetTier(5);
+	}});
+}, {
+	Weight = 1;
+	Value = DropTable.new({{
+		Weight = 1;
+		Value = Items.Potion("Treasure Hunter"):SetTier(2);
+	}, {
+		Weight = 0.1;
+		Value = Items.Potion("Treasure Hunter"):SetTier(3);
+	}, {
+		Weight = 0.025;
+		Value = Items.Potion("Treasure Hunter"):SetTier(4);
+	}, {
+		Weight = 0.005;
+		Value = Items.Potion("Treasure Hunter"):SetTier(5);
+	}});
+}, {
+	Weight = 0.5;
+	Value = DropTable.new({{
+		Weight = 1;
+		Value = Items.Potion("Diamonds"):SetTier(1);
+	}, {
+		Weight = 0.1;
+		Value = Items.Potion("Diamonds"):SetTier(2);
+	}, {
+		Weight = 0.025;
+		Value = Items.Potion("Diamonds"):SetTier(3);
+	}, {
+		Weight = 0.005;
+		Value = Items.Potion("Diamonds"):SetTier(4);
+	}});
+}, {
+	Weight = 5;
+	Value = DropTable.new({{
+		Weight = 1;
+		Value = Items.Fruit("Apple");
+	}, {
+		Weight = 1;
+		Value = Items.Fruit("Banana");
+	}, {
+		Weight = 1;
+		Value = Items.Fruit("Pineapple");
+	}, {
+		Weight = 1;
+		Value = Items.Fruit("Orange");
+	}, {
+		Weight = 1;
+		Value = Items.Fruit("Watermelon");
+	}, {
+		Weight = 0.1;
+		Value = Items.Fruit("Rainbow");
+	}});
+}, {
+	Weight = 5;
+	Value = DropTable.new({{
+		Weight = 1;
+		Value = Items.Misc("Diamonds Flag");
+	}, {
+		Weight = 1;
+		Value = Items.Misc("Coins Flag");
+	}, {
+		Weight = 1;
+		Value = Items.Misc("Magnet Flag");
+	}, {
+		Weight = 0.5;
+		Value = Items.Misc("Hasty Flag");
+	}, {
+		Weight = 0.0625;
+		Value = Items.Misc("Fortune Flag");
+	}, {
+		Weight = 0.006666666666666667;
+		Value = Items.Misc("Rainbow Flag");
+	}, {
+		Weight = 0.0044444444444444444;
+		Value = Items.Misc("Shiny Flag");
+	}, {
+		Weight = 1;
+		Value = Items.Misc("Basic Coin Jar");
+	}, {
+		Weight = 0.2;
+		Value = Items.Misc("Magic Coin Jar");
+	}, {
+		Weight = 0.1;
+		Value = Items.Misc("Giant Coin Jar");
+	}, {
+		Weight = 1;
+		Value = Items.Misc("Toy Ball");
+	}, {
+		Weight = 1;
+		Value = Items.Misc("Toy Bone");
+	}, {
+		Weight = 0.5;
+		Value = Items.Misc("Squeaky Toy");
+	}, {
+		Weight = 0.25;
+		Value = Items.Misc("Comet");
+	}, {
+		Weight = 0.0625;
+		Value = Items.Misc("Mini Lucky Block");
+	}, {
+		Weight = 0.041666666666666664;
+		Value = Items.Misc("Mini Pinata");
+	}, {
+		Weight = 0.25;
+		Value = Items.Misc("Gift Bag");
+	}});
+}, {
+	Weight = 0.02;
+	Value = DropTable.new({{
+		Weight = 1024;
+		Value = Items.Misc("Charm Stone");
+	}, {
+		Weight = 128;
+		Value = Items.Charm("Agility");
+	}, {
+		Weight = 128;
+		Value = Items.Charm("Bonus");
+	}, {
+		Weight = 80;
+		Value = Items.Charm("Coins");
+	}, {
+		Weight = 80;
+		Value = Items.Charm("Criticals");
+	}, {
+		Weight = 80;
+		Value = Items.Charm("Strength");
+	}, {
+		Weight = 32;
+		Value = Items.Charm("Diamonds");
+	}, {
+		Weight = 32;
+		Value = Items.Charm("TNT");
+	}, {
+		Weight = 12;
+		Value = Items.Charm("Glittering");
+	}, {
+		Weight = 12;
+		Value = Items.Charm("Lightning");
+	}, {
+		Weight = 12;
+		Value = Items.Charm("XP");
+	}, {
+		Weight = 1;
+		Value = Items.Charm("Royalty");
+	}, {
+		Weight = 0.35;
+		Value = Items.Charm("Overload");
+	}});
+}, {
+	Weight = 0.0033333333333333335;
+	Value = Items.Misc("Golden Shovel");
+}, {
+	Weight = 0.0033333333333333335;
+	Value = Items.Misc("Golden Watering Can");
+}, {
+	Weight = 0.0003333333333333333;
+	Value = Items.Misc("Diamond Shovel");
+}, {
+	Weight = 0.0003333333333333333;
+	Value = Items.Misc("Diamond Shovel");
+}, {
+	Weight = 0.0002;
+	Value = Items.Pet("Huge Colorful Wisp");
+}, {
+	Weight = 0.000039999999999999996;
+	Value = Items.Pet("Huge Colorful Wisp"):SetGolden();
+}, {
+	Weight = 0.000008;
+	Value = Items.Pet("Huge Colorful Wisp"):SetRainbow();
+}})

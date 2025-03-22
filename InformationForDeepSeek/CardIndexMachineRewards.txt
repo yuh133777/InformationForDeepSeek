@@ -1,0 +1,16 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-03-22 15:31:01
+-- Luau version 6, Types version 3
+-- Time taken: 0.000394 seconds
+
+local Items = require(game.ReplicatedStorage.Library.Items)
+return {
+	PointsNeed1 = 30;
+	PointsNeed2 = 40;
+	PointsNeed3 = 50;
+	PointsNeed4 = 75;
+	Reward2 = Items.Misc("Card Shop Key");
+	Reward3 = Items.Hoverboard("Booster");
+	Reward4 = Items.Booth("Booster");
+}

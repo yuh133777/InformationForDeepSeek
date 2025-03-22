@@ -1,0 +1,16 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (httpsdiscord.ggwyButjTMhM)
+-- Decompiled on 2025-03-22 150112
+-- Luau version 6, Types version 3
+-- Time taken 0.000708 seconds
+
+local Currency = require(game.ReplicatedStorage.Library.Directory.Currency)
+return {
+	Icon = ;
+	RewardText = function(arg1) -- Line 40, Named RewardText
+		return `+{arg1}% Diamond Drops!`
+	end;
+	TierPowers = {10, 10, 5, 5, 5, 5, 2, 2, 2};
+	TierCosts = {200, 400, 900, 2000, 12000, 100000, 300000, 3000000, 10000000};
+	TierCurrencies = {Currency.Diamonds, Currency.Diamonds, Currency.Diamonds, Currency.Diamonds, Currency.Diamonds, Currency.Diamonds, Currency.Diamonds, Currency.Diamonds, Currency.Diamonds};
+}

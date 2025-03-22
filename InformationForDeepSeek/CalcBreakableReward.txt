@@ -1,0 +1,31 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-03-22 15:27:06
+-- Luau version 6, Types version 3
+-- Time taken: 0.000873 seconds
+
+local ToRelativeZoneNumber_upvr = require(script.Parent:WaitForChild("INTERNAL").ToRelativeZoneNumber)
+local BreakableReward_upvr = require(script.Parent:WaitForChild("INTERNAL").BreakableReward)
+local BreakableRewardV2_upvr = require(script.Parent:WaitForChild("INTERNAL").BreakableRewardV2)
+local BreakableRewardV3_upvr = require(script.Parent:WaitForChild("INTERNAL").BreakableRewardV3)
+function CalcBreakableReward(arg1, arg2, arg3) -- Line 8
+	--[[ Upvalues[4]:
+		[1]: ToRelativeZoneNumber_upvr (readonly)
+		[2]: BreakableReward_upvr (readonly)
+		[3]: BreakableRewardV2_upvr (readonly)
+		[4]: BreakableRewardV3_upvr (readonly)
+	]]
+	local var5
+	if arg3 == 1 then
+		var5 = BreakableReward_upvr.f(ToRelativeZoneNumber_upvr(arg1, arg3))
+	elseif arg3 == 2 then
+		-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+		var5 = BreakableRewardV2_upvr.f(ToRelativeZoneNumber_upvr(arg1, arg3))
+	else
+		-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+		var5 = BreakableRewardV3_upvr.f(ToRelativeZoneNumber_upvr(arg1, arg3))
+	end
+	local var6 = (arg2 or 0) * 1.3
+	return math.max(var5 * (1 + var6 + 0.4 * var6 ^ 2), 0)
+end
+return CalcBreakableReward

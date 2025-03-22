@@ -1,0 +1,154 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-03-22 15:29:49
+-- Luau version 6, Types version 3
+-- Time taken: 0.004761 seconds
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Functions_upvr = require(ReplicatedStorage:WaitForChild("Library").Functions)
+local Player_upvr = require(game.ReplicatedStorage.Library.Player)
+local Assets_upvr = ReplicatedStorage:WaitForChild("Assets")
+local __DEBRIS_upvr = workspace:WaitForChild("__DEBRIS")
+local ItemUI_upvr = require(game.ReplicatedStorage.Library.Client.UI.ItemUI)
+local RunService_upvr = game:GetService("RunService")
+local function var4_upvr(arg1, arg2, arg3) -- Line 49
+	--[[ Upvalues[6]:
+		[1]: Player_upvr (readonly)
+		[2]: Assets_upvr (readonly)
+		[3]: __DEBRIS_upvr (readonly)
+		[4]: ItemUI_upvr (readonly)
+		[5]: Functions_upvr (readonly)
+		[6]: RunService_upvr (readonly)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	-- KONSTANTERROR: [0] 1. Error Block 50 start (CF ANALYSIS FAILED)
+	if arg2:GetId() ~= "Huge Angry Yeti" or arg2:GetId() ~= "Titanic Angry Yeti" then
+		return nil
+	end
+	local var17
+	if typeof(arg1) == "Instance" and arg1:IsA("Player") then
+		local any_PrimaryPart_result1_2 = Player_upvr.Optional.PrimaryPart(arg1)
+		assert(any_PrimaryPart_result1_2)
+		local var19 = math.random() * 2 * math.pi
+		var17 = CFrame.new(any_PrimaryPart_result1_2.Position + (3 + math.random() * 3) * Vector3.new(math.cos(var19), 0, math.sin(var19)))
+		-- KONSTANTWARNING: GOTO [93] #72
+	end
+	-- KONSTANTERROR: [0] 1. Error Block 50 end (CF ANALYSIS FAILED)
+	-- KONSTANTERROR: [72] 56. Error Block 51 start (CF ANALYSIS FAILED)
+	if typeof(arg1) == "Vector3" then
+		var17 = CFrame.new(arg1)
+	elseif typeof(arg1) == "CFrame" then
+		var17 = arg1
+	end
+	assert(var17)
+	local var20 = arg3
+	if not var20 then
+		var20 = {}
+	end
+	local var21_upvr = var20.time or 3
+	local clone_upvr = Assets_upvr.Billboards:FindFirstChild("RewardItem"):Clone()
+	local Part_upvr = Instance.new("Part")
+	Part_upvr.Anchored = true
+	Part_upvr.CanCollide = false
+	Part_upvr.Size = Vector3.new()
+	Part_upvr.Transparency = 1
+	Part_upvr.CFrame = var17
+	Part_upvr.Name = "RewardBillboard"
+	Part_upvr.Parent = __DEBRIS_upvr
+	local tbl = {
+		HideStrength = true;
+		NoOverlay = true;
+	}
+	local var25 = true
+	tbl.NoScribble = var25
+	if arg2:GetAmount() ~= 1 then
+		var25 = false
+	else
+		var25 = true
+	end
+	tbl.HideQuantity = var25
+	local any_Create_result1 = ItemUI_upvr.Create(arg2, tbl)
+	any_Create_result1.BackgroundTransparency = 1
+	any_Create_result1.AnchorPoint = Vector2.new(0.5, 0.5)
+	any_Create_result1.Size = UDim2.new(0.35, 0, 0.35, 0)
+	any_Create_result1.Position = UDim2.new(0.5, 0, 0.5, 0)
+	any_Create_result1.Parent = clone_upvr
+	clone_upvr.Parent = Part_upvr
+	coroutine.wrap(function() -- Line 104
+		--[[ Upvalues[2]:
+			[1]: clone_upvr (readonly)
+			[2]: Functions_upvr (copied, readonly)
+		]]
+		clone_upvr.Size = UDim2.new(clone_upvr.Size.X.Scale * 1.3, clone_upvr.Size.X.Offset * 1.3, clone_upvr.Size.Y.Scale * 1.3, clone_upvr.Size.Y.Offset * 1.3)
+		Functions_upvr.Wait(0.05)
+		Functions_upvr.Tween(clone_upvr, {
+			Size = clone_upvr.Size;
+		}, {0.1, "Sine", "Out"})
+	end)()
+	coroutine.wrap(function() -- Line 113
+		--[[ Upvalues[4]:
+			[1]: clone_upvr (readonly)
+			[2]: var21_upvr (readonly)
+			[3]: Functions_upvr (copied, readonly)
+			[4]: RunService_upvr (copied, readonly)
+		]]
+		local os_clock_result1 = os.clock()
+		while os.clock() - os_clock_result1 <= var21_upvr do
+			clone_upvr.StudsOffsetWorldSpace += Vector3.new(0, 3 * Functions_upvr.Easing((os.clock() - os_clock_result1) / var21_upvr, "Linear", "InOut"), 0)
+			RunService_upvr.RenderStepped:Wait()
+		end
+	end)()
+	for _, v in ipairs(clone_upvr:GetDescendants()) do
+		if v.ClassName == "TextLabel" then
+			local _ = {
+				TextTransparency = 1;
+				TextStrokeTransparency = 1;
+			}
+			local _ = {0.5, "Linear", "Out"}
+		elseif v.ClassName == "ImageLabel" then
+		elseif v.ClassName == "UIStroke" then
+			Functions_upvr.Tween(v, {
+				Transparency = 1;
+			}, {0.5, "Linear", "Out"}, var21_upvr - 0.5)
+		end
+	end
+	Functions_upvr.Tween(v, {
+		ImageTransparency = 1;
+	}, {0.5, "Linear", "Out"}, var21_upvr - 0.5).Completed:Connect(function() -- Line 136
+		--[[ Upvalues[1]:
+			[1]: Part_upvr (readonly)
+		]]
+		Part_upvr:Destroy()
+	end)
+	do
+		return clone_upvr
+	end
+	-- KONSTANTERROR: [72] 56. Error Block 51 end (CF ANALYSIS FAILED)
+end
+local Types_upvr = require(game.ReplicatedStorage.Library.Items.Types)
+local CurrencyUtil_upvr = require(game.ReplicatedStorage.Library.Util.CurrencyUtil)
+local RewardImage_upvr = require(game.ReplicatedStorage.Library.Client.WorldFX.RewardImage)
+require(game.ReplicatedStorage.Library.Client.Network).Fired("Reward Item Animation"):Connect(function(arg1, arg2) -- Line 143
+	--[[ Upvalues[6]:
+		[1]: Player_upvr (readonly)
+		[2]: Types_upvr (readonly)
+		[3]: CurrencyUtil_upvr (readonly)
+		[4]: RewardImage_upvr (readonly)
+		[5]: Functions_upvr (readonly)
+		[6]: var4_upvr (readonly)
+	]]
+	local any_PrimaryPart_result1 = Player_upvr.Optional.PrimaryPart(arg1)
+	if not any_PrimaryPart_result1 then
+	else
+		local any_From_result1 = Types_upvr.From(arg2.class, arg2.data)
+		local var48 = math.random() * math.pi * 2
+		local var49 = any_PrimaryPart_result1.Position + Vector3.new(math.sin(var48) * 5, 0, math.cos(var48) * 5)
+		if arg2.class == "Currency" then
+			local any_GetTierInfo_result1, any_GetTierInfo_result2 = CurrencyUtil_upvr.GetTierInfo(any_From_result1:GetId(), any_From_result1:GetAmount())
+			RewardImage_upvr(var49, Functions_upvr.NumberShorten(any_GetTierInfo_result2), any_GetTierInfo_result1.imageOutline)
+			return
+		end
+		var4_upvr(var49, any_From_result1)
+	end
+end)
+return var4_upvr

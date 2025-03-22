@@ -1,0 +1,12 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-03-22 15:15:54
+-- Luau version 6, Types version 3
+-- Time taken: 0.000271 seconds
+
+return {
+	SceneAnalysisProvider = require(script.SceneAnalysisContext).Provider;
+	useAssetsInView = require(script.useAssetsInView);
+	useAssetsInRange = require(script.useAssetsInRange);
+	useAudibleSounds = require(script.useAudibleSounds);
+}

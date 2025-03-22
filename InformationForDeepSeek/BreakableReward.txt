@@ -1,0 +1,17 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-03-22 15:26:47
+-- Luau version 6, Types version 3
+-- Time taken: 0.000554 seconds
+
+local GateCost_upvr = require(script.Parent.GateCost)
+function f(arg1) -- Line 19
+	--[[ Upvalues[1]:
+		[1]: GateCost_upvr (readonly)
+	]]
+	return (GateCost_upvr.f(arg1)) / ((-5247.07033 / ((arg1 / 39.97063) ^ 1.732168 + 1) + 5280) * 21.333333333333332)
+end
+return {
+	f = f;
+	fInv = require(game:GetService("ReplicatedStorage"):WaitForChild("Library"):WaitForChild("Functions").Interp).InverseInterpFunction(f, 1, 301, 1);
+}

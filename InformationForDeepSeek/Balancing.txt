@@ -1,0 +1,254 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-03-22 15:26:12
+-- Luau version 6, Types version 3
+-- Time taken: 0.004129 seconds
+
+local module_upvr_4 = {}
+local any_IsServer_result1_upvr = game:GetService("RunService"):IsServer()
+module_upvr_4.Constants = require(script.Constants)
+module_upvr_4.CalcPetPower = require(script.CalcPetPower)
+module_upvr_4.CalcPetDamageFromZone = require(script.CalcPetDamageFromZone)
+module_upvr_4.CalcPetZoneNumber = require(script.CalcPetZoneNumber)
+module_upvr_4.CalcBreakableReward = require(script.CalcBreakableReward)
+module_upvr_4.CalcBreakableHealth = require(script.CalcBreakableHealth)
+function module_upvr_4.CalculateCoinsMultiplier(arg1) -- Line 69
+	--[[ Upvalues[1]:
+		[1]: any_IsServer_result1_upvr (readonly)
+	]]
+	local var3 = 1
+	if any_IsServer_result1_upvr then
+		local FFlags = require(game.ServerScriptService.Library.FFlags)
+		var3 *= FFlags.Get(FFlags.Keys.CoinMultiplier) or 1
+		return var3
+	end
+	local FFlags_2 = require(game.ReplicatedStorage.Library.Client.FFlags)
+	return var3 * (FFlags_2.Get(FFlags_2.Keys.CoinMultiplier) or 1)
+end
+function module_upvr_4.CalculateDiamondsMultiplier(arg1) -- Line 85
+	--[[ Upvalues[1]:
+		[1]: any_IsServer_result1_upvr (readonly)
+	]]
+	local var6 = 1
+	if any_IsServer_result1_upvr then
+		local FFlags_3 = require(game.ServerScriptService.Library.FFlags)
+		var6 *= FFlags_3.Get(FFlags_3.Keys.DiamondMultiplier) or 1
+		return var6
+	end
+	local FFlags_4 = require(game.ReplicatedStorage.Library.Client.FFlags)
+	return var6 * (FFlags_4.Get(FFlags_4.Keys.DiamondMultiplier) or 1)
+end
+function module_upvr_4.CalcMiniChestHealth(arg1, arg2, arg3) -- Line 108
+	--[[ Upvalues[1]:
+		[1]: module_upvr_4 (readonly)
+	]]
+	return module_upvr_4.CalcBreakableHealth(arg1, arg2 * 15, arg3)
+end
+function module_upvr_4.CalcSuperiorMiniChestHealth(arg1, arg2, arg3) -- Line 117
+	--[[ Upvalues[1]:
+		[1]: module_upvr_4 (readonly)
+	]]
+	return module_upvr_4.CalcBreakableHealth(arg1, arg2 * 50, arg3)
+end
+function module_upvr_4.CalcBossChestHealth(arg1, arg2, arg3) -- Line 126
+	--[[ Upvalues[1]:
+		[1]: module_upvr_4 (readonly)
+	]]
+	return module_upvr_4.CalcBreakableHealth(arg1, arg2 * 25, arg3)
+end
+function module_upvr_4.CalcMiniChestReward(arg1, arg2, arg3) -- Line 135
+	--[[ Upvalues[1]:
+		[1]: module_upvr_4 (readonly)
+	]]
+	return module_upvr_4.CalcBreakableReward(arg1, arg2 * 15, arg3)
+end
+function module_upvr_4.CalcBossChestReward(arg1, arg2, arg3) -- Line 144
+	--[[ Upvalues[1]:
+		[1]: module_upvr_4 (readonly)
+	]]
+	return module_upvr_4.CalcBreakableReward(arg1, arg2 * 25, arg3)
+end
+function module_upvr_4.CalcCometHealth(arg1, arg2, arg3) -- Line 154
+	--[[ Upvalues[1]:
+		[1]: module_upvr_4 (readonly)
+	]]
+	if arg2 then
+	else
+	end
+	return module_upvr_4.CalcBreakableHealth(arg1, 15, arg3)
+end
+function module_upvr_4.CalcGingerbreadChestHealth(arg1, arg2) -- Line 165
+	--[[ Upvalues[1]:
+		[1]: module_upvr_4 (readonly)
+	]]
+	return module_upvr_4.CalcBreakableHealth(arg1, 15, arg2)
+end
+function module_upvr_4.CalcGiantPumpkinChestHealth(arg1, arg2) -- Line 174
+	--[[ Upvalues[1]:
+		[1]: module_upvr_4 (readonly)
+	]]
+	return module_upvr_4.CalcBreakableHealth(arg1, 15, arg2)
+end
+function module_upvr_4.CalcLuckyBlockEnchantHealth(arg1, arg2) -- Line 185
+	--[[ Upvalues[1]:
+		[1]: module_upvr_4 (readonly)
+	]]
+	return module_upvr_4.CalcBreakableHealth(arg1, 10, arg2)
+end
+function module_upvr_4.CalcPinataHealth(arg1, arg2) -- Line 195
+	--[[ Upvalues[1]:
+		[1]: module_upvr_4 (readonly)
+	]]
+	return module_upvr_4.CalcBreakableHealth(arg1, 20, arg2)
+end
+function module_upvr_4.CalcLuckyBlockEventHealth(arg1, arg2, arg3) -- Line 205
+	--[[ Upvalues[1]:
+		[1]: module_upvr_4 (readonly)
+	]]
+	local var9 = 18
+	if arg2 == "Medium" then
+		var9 = 12
+	elseif arg2 == "Small" then
+		var9 = 8
+	end
+	return module_upvr_4.CalcBreakableHealth(arg1, var9, arg3)
+end
+function module_upvr_4.CalcCometRewards(arg1, arg2, arg3) -- Line 221
+	--[[ Upvalues[1]:
+		[1]: module_upvr_4 (readonly)
+	]]
+	if arg2 then
+	else
+	end
+	return module_upvr_4.CalcBreakableReward(arg1, 15, arg3)
+end
+function module_upvr_4.CalcGingerbreadChestRewards(arg1, arg2, arg3) -- Line 232
+	--[[ Upvalues[1]:
+		[1]: module_upvr_4 (readonly)
+	]]
+	if arg2 then
+	else
+	end
+	return module_upvr_4.CalcBreakableReward(arg1, 15, arg3)
+end
+function module_upvr_4.CalcBalloonGiftHealth(arg1, arg2, arg3) -- Line 243
+	--[[ Upvalues[1]:
+		[1]: module_upvr_4 (readonly)
+	]]
+	return module_upvr_4.CalcBreakableHealth(arg1, 15, arg3)
+end
+function module_upvr_4.CalcLuckyBlockReward(arg1, arg2, arg3) -- Line 260
+	--[[ Upvalues[1]:
+		[1]: module_upvr_4 (readonly)
+	]]
+	if arg2 then
+	else
+	end
+	return module_upvr_4.CalcBreakableReward(arg1, 15, arg3)
+end
+function module_upvr_4.CalcCoinJarRequirement(arg1, arg2) -- Line 271
+	--[[ Upvalues[1]:
+		[1]: module_upvr_4 (readonly)
+	]]
+	return module_upvr_4.CalcBreakableReward(arg1, 230, arg2) * (arg1 * 0.025 + 1)
+end
+function module_upvr_4.CalcCoinPlantRewards(arg1, arg2) -- Line 284
+	--[[ Upvalues[1]:
+		[1]: module_upvr_4 (readonly)
+	]]
+	return module_upvr_4.CalcBreakableReward(arg1, 80, arg2)
+end
+function module_upvr_4.CalcDiamondChestHealth(arg1, arg2) -- Line 293
+	--[[ Upvalues[1]:
+		[1]: module_upvr_4 (readonly)
+	]]
+	return module_upvr_4.CalcBreakableHealth(arg1, 25, arg2)
+end
+function module_upvr_4.CalcBossChestMimicHealth(arg1, arg2) -- Line 302
+	--[[ Upvalues[1]:
+		[1]: module_upvr_4 (readonly)
+	]]
+	return module_upvr_4.CalcBreakableHealth(arg1, 55, arg2)
+end
+function module_upvr_4.CalcBossLuckyBlockHealth(arg1, arg2) -- Line 311
+	--[[ Upvalues[1]:
+		[1]: module_upvr_4 (readonly)
+	]]
+	return module_upvr_4.CalcBreakableHealth(arg1, 35, arg2)
+end
+function module_upvr_4.CalcKawaiiAlleyChestHealth() -- Line 318
+	--[[ Upvalues[1]:
+		[1]: module_upvr_4 (readonly)
+	]]
+	return module_upvr_4.CalcBreakableHealth(224, 125, 3)
+end
+local module_upvr_3 = {
+	["ChestRaid: Main"] = 5;
+	["ChestRaid: 1"] = 4;
+	["ChestRaid: 2"] = 5;
+	["ChestRaid: 3"] = 5;
+	["ChestRaid: 4"] = 3.5;
+	["ChestRaid: 5"] = 9;
+	["ChestRaid: 6"] = 5;
+	["ChestRaid: 7"] = 12.5;
+}
+function module_upvr_4.CalcChestRaidHealth(arg1, arg2, arg3) -- Line 338
+	--[[ Upvalues[2]:
+		[1]: module_upvr_3 (readonly)
+		[2]: module_upvr_4 (readonly)
+	]]
+	return module_upvr_4.CalcBreakableHealth(124, (module_upvr_3[arg1] or 5) * arg2, arg3)
+end
+local module_upvr_2 = {
+	["GoodVsEvilRaid: Main"] = 5;
+	["GoodVsEvilRaid: 1"] = 4;
+	["GoodVsEvilRaid: 2"] = 5;
+	["GoodVsEvilRaid: 3"] = 5;
+	["GoodVsEvilRaid: 4"] = 3.5;
+	["GoodVsEvilRaid: 5"] = 9;
+	["GoodVsEvilRaid: 6"] = 5;
+	["GoodVsEvilRaid: 7"] = 12.5;
+}
+function module_upvr_4.CalcGoodVsEvilRaidHealth(arg1, arg2, arg3) -- Line 360
+	--[[ Upvalues[2]:
+		[1]: module_upvr_2 (readonly)
+		[2]: module_upvr_4 (readonly)
+	]]
+	return module_upvr_4.CalcBreakableHealth(12, (module_upvr_2[arg1] or 5) * arg2, 1)
+end
+local module_upvr = {
+	["GrinchRaid: Main"] = 5;
+	["GrinchRaid: 1"] = 4;
+	["GrinchRaid: 2"] = 5;
+	["GrinchRaid: 3"] = 5;
+	["GrinchRaid: 4"] = 3.5;
+	["GrinchRaid: 5"] = 9;
+	["GrinchRaid: 6"] = 5;
+	["GrinchRaid: 7"] = 12.5;
+}
+function module_upvr_4.CalcGrinchRaidHealth(arg1, arg2, arg3) -- Line 382
+	--[[ Upvalues[2]:
+		[1]: module_upvr (readonly)
+		[2]: module_upvr_4 (readonly)
+	]]
+	return module_upvr_4.CalcBreakableHealth(12, (module_upvr[arg1] or 5) * arg2, 1)
+end
+module_upvr_4.CalcDiamondRewardMultiplier = require(script.CalcDiamondRewardMultiplier)
+module_upvr_4.CalcBreakableNerfMultiplier = require(script.CalcBreakableNerfMultiplier)
+module_upvr_4.CalcPotionUpgradeCost = require(script.CalcPotionUpgradeCost)
+module_upvr_4.CalcCardToPetConversionCost = require(script.CalcCardToPetConversionCost)
+module_upvr_4.CalcEnchantsPerTierRequired = require(script.CalcEnchantsPerTierRequired)
+module_upvr_4.CalcPotionsPerTierRequired = require(script.CalcPotionsPerTierRequired)
+module_upvr_4.CalcEnchantUpgradeCost = require(script.CalcEnchantUpgradeCost)
+module_upvr_4.CalcFruitUpgradeCost = require(script.CalcFruitUpgradeCost)
+module_upvr_4.CalcShinyFruitUpgradeCost = require(script.CalcShinyFruitUpgradeCost)
+module_upvr_4.CalcEggPrice = require(script.CalcEggPrice)
+module_upvr_4.CalcGatePrice = require(script.CalcGatePrice)
+module_upvr_4.CalcPetSlotPrice = require(script.CalcPetSlotPrice)
+module_upvr_4.CalcEggSlotPrice = require(script.CalcEggSlotPrice)
+module_upvr_4.CalcMaxCoins = require(script.CalcMaxCoins)
+module_upvr_4.HealthDisplay = require(script.HealthDisplay)
+module_upvr_4.Mastery = require(script.Mastery)
+module_upvr_4.CalcItemCreatorRerollPrice = require(script.CalcItemCreatorRerollPrice)
+module_upvr_4.CalcItemsPerForge = require(script.CalcItemsPerForge)
+return module_upvr_4

@@ -1,0 +1,195 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-03-22 15:26:00
+-- Luau version 6, Types version 3
+-- Time taken: 0.003935 seconds
+
+local RunService_upvr = game:GetService("RunService")
+function onLoaded() -- Line 7
+	--[[ Upvalues[1]:
+		[1]: RunService_upvr (readonly)
+	]]
+	script:SetAttribute("IsLoaded", true)
+	task.spawn(function() -- Line 9
+		--[[ Upvalues[1]:
+			[1]: RunService_upvr (copied, readonly)
+		]]
+		local Signal = require(game.ReplicatedStorage.Library.Signal)
+		if RunService_upvr:IsServer() then
+			Signal.Fire("Server Loaded")
+		else
+			Signal.Fire("Client Loaded")
+		end
+	end)
+end
+local os_clock_result1_upvr = os.clock()
+function onTrackedLoaded() -- Line 19
+	--[[ Upvalues[2]:
+		[1]: RunService_upvr (readonly)
+		[2]: os_clock_result1_upvr (readonly)
+	]]
+	local var5
+	if RunService_upvr:IsClient() then
+		var5 = "CLIENT"
+	else
+		var5 = "SERVER"
+	end
+	print(`âœ… {var5} | _L took {math.round((os.clock() - os_clock_result1_upvr) * 1000)}ms to initialize!`)
+end
+function wcall(arg1, ...) -- Line 27
+	local var6_upvw
+	local var7_upvw
+	local packed = table.pack(xpcall(arg1, function(arg1_2) -- Line 33
+		--[[ Upvalues[2]:
+			[1]: var6_upvw (read and write)
+			[2]: var7_upvw (read and write)
+		]]
+		var6_upvw = tostring(arg1_2)
+		var7_upvw = tostring(debug.traceback(nil, 3))
+	end, ...))
+	local _1 = packed[1]
+	if _1 ~= true then
+		warn(`{tostring(var6_upvw)}\nStack Begin\n{tostring(var7_upvw)}Stack End`)
+		return false
+	end
+	return _1, table.unpack(packed, 2)
+end
+local var11_upvw = 0
+local var12_upvw = 0
+local var13_upvw = false
+local var14_upvw = false
+function callback(arg1, arg2) -- Line 51
+	--[[ Upvalues[4]:
+		[1]: var11_upvw (read and write)
+		[2]: var13_upvw (read and write)
+		[3]: var12_upvw (read and write)
+		[4]: var14_upvw (read and write)
+	]]
+	wcall(arg1)
+	var11_upvw -= 1
+	local var15
+	if 0 > var11_upvw then
+		var15 = false
+	else
+		var15 = true
+	end
+	assert(var15)
+	if var11_upvw == 0 then
+		var15 = not var13_upvw
+		assert(var15)
+		var13_upvw = true
+		onLoaded()
+	end
+	if not arg2 then
+		if 0 > var12_upvw then
+			var15 = false
+		else
+			var15 = true
+		end
+		assert(var15)
+		var12_upvw -= 1
+		if var12_upvw == 0 then
+			var15 = not var14_upvw
+			assert(var15)
+			var14_upvw = true
+			onTrackedLoaded()
+		end
+	end
+end
+function queue(arg1, arg2) -- Line 73
+	--[[ Upvalues[4]:
+		[1]: var13_upvw (read and write)
+		[2]: var14_upvw (read and write)
+		[3]: var11_upvw (read and write)
+		[4]: var12_upvw (read and write)
+	]]
+	local var16 = not var13_upvw
+	if var16 then
+		var16 = not var14_upvw
+	end
+	assert(var16)
+	var11_upvw += 1
+	if not arg2 then
+		var12_upvw += 1
+	end
+	task.spawn(callback, arg1, arg2)
+end
+function queueDeferred(arg1, arg2) -- Line 82
+	--[[ Upvalues[4]:
+		[1]: var13_upvw (read and write)
+		[2]: var14_upvw (read and write)
+		[3]: var11_upvw (read and write)
+		[4]: var12_upvw (read and write)
+	]]
+	local var17 = not var13_upvw
+	if var17 then
+		var17 = not var14_upvw
+	end
+	assert(var17)
+	var11_upvw += 1
+	if not arg2 then
+		var12_upvw += 1
+	end
+	task.spawn(callback, arg1, arg2)
+end
+function queueModules(arg1) -- Line 92
+	for _, v_upvr in ipairs(arg1:GetChildren()) do
+		if v_upvr:IsA("ModuleScript") and not v_upvr:GetAttribute("NOLOAD") then
+			queue(function() -- Line 95
+				--[[ Upvalues[1]:
+					[1]: v_upvr (readonly)
+				]]
+				local var25_upvw = false
+				task.spawn(function() -- Line 98
+					--[[ Upvalues[2]:
+						[1]: var25_upvw (read and write)
+						[2]: v_upvr (copied, readonly)
+					]]
+					task.wait(15)
+					if not var25_upvw then
+						print(v_upvr, "took 15s to load!")
+					end
+				end)
+				var25_upvw = true
+				local ceiled = math.ceil((os.clock() - os.clock()) * 1000)
+				if 250 <= ceiled then
+					print("[SlowModule]", v_upvr.Name, `{ceiled}ms`)
+				end
+			end)
+		end
+	end
+end
+queue(function() -- Line 118
+	--[[ Upvalues[1]:
+		[1]: RunService_upvr (readonly)
+	]]
+	queueDeferred(function() -- Line 119
+		queueModules(script)
+	end)
+	if RunService_upvr:IsServer() then
+		queueDeferred(function() -- Line 123
+			queueModules(game:GetService("ServerScriptService"):WaitForChild("Library"))
+		end)
+	else
+		queueDeferred(function() -- Line 127
+			queueModules(script:WaitForChild("Client"))
+		end)
+		queueDeferred(function() -- Line 130
+			require(script:WaitForChild("Client"):WaitForChild("Save")).FetchPlayer(game:GetService("Players").LocalPlayer)
+		end, true)
+	end
+end)
+return {
+	IsLoaded = function() -- Line 140, Named "IsLoaded"
+		--[[ Upvalues[1]:
+			[1]: var11_upvw (read and write)
+		]]
+		local var33
+		if var11_upvw ~= 0 then
+			var33 = false
+		else
+			var33 = true
+		end
+		return var33
+	end;
+}
