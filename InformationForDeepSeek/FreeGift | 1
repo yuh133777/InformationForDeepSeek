@@ -1,0 +1,44 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-03-22 17:01:55
+-- Luau version 6, Types version 3
+-- Time taken: 0.001071 seconds
+
+local CurrencyItem = require(game.ReplicatedStorage.Library.Items.CurrencyItem)
+local DropTable = require(game.ReplicatedStorage.Library.DropTable)
+return {
+	Id = 1;
+	Type = "Easy";
+	WaitTime = 300;
+	DropTable = {DropTable.new({{
+		Weight = 0.1;
+		Value = CurrencyItem("Coins"):SetAmount(10);
+	}, {
+		Weight = 0.05;
+		Value = CurrencyItem("Coins"):SetAmount(20);
+	}, {
+		Weight = 0.03333333333333333;
+		Value = CurrencyItem("Coins"):SetAmount(30);
+	}, {
+		Weight = 0.025;
+		Value = CurrencyItem("Coins"):SetAmount(40);
+	}}), DropTable.new({{
+		Weight = 0.3;
+		Value = nil;
+	}, {
+		Weight = 1;
+		Value = CurrencyItem("Diamonds"):SetAmount(50);
+	}, {
+		Weight = 0.35;
+		Value = CurrencyItem("Diamonds"):SetAmount(75);
+	}, {
+		Weight = 0.1;
+		Value = CurrencyItem("Diamonds"):SetAmount(100);
+	}}), DropTable.new({{
+		Weight = 4;
+		Value = nil;
+	}, {
+		Weight = 1;
+		Value = require(game.ReplicatedStorage.Library.Directory.DropTables).Misc.RandomRewards;
+	}})};
+}
