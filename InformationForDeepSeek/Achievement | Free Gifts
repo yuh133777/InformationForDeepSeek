@@ -1,0 +1,45 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-03-22 17:04:17
+-- Luau version 6, Types version 3
+-- Time taken: 0.001096 seconds
+
+local Items = require(game.ReplicatedStorage.Library.Items)
+local AchievementDifficulties = require(game.ReplicatedStorage.Library.Types.Achievements).AchievementDifficulties
+return {
+	Name = script.Name:match("| (.*)");
+	Icon = "rbxassetid://15092229040";
+	Tiers = {{
+		Title = "Daily Grind";
+		Desc = "Claim {amount} Free Gifts";
+		Amount = 100;
+		ManuallyNotify = 10;
+		Difficulty = AchievementDifficulties.Easy;
+		Hidden = false;
+		Rewards = {{
+			Reward = Items.Misc("Gift Bag"):SetAmount(10);
+		}};
+	}, {
+		Title = "Stealing From Santa";
+		Desc = "Claim {amount} Free Gifts";
+		Amount = 450;
+		ManuallyNotify = 11;
+		Difficulty = AchievementDifficulties.Medium;
+		Hidden = false;
+		Rewards = {{
+			Reward = Items.Misc("Gift Bag"):SetAmount(25);
+		}, {
+			Reward = Items.Currency("Diamonds"):SetAmount(25000);
+		}};
+	}, {
+		Title = "Birthday Bash";
+		Desc = "Claim {amount} Free Gifts";
+		Amount = 1500;
+		ManuallyNotify = 12;
+		Difficulty = AchievementDifficulties.Hard;
+		Hidden = false;
+		Rewards = {{
+			Reward = Items.Misc("Large Gift Bag"):SetAmount(20);
+		}};
+	}};
+}
