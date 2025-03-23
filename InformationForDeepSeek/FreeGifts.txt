@@ -1,0 +1,43 @@
+-- Decompiler will be improved VERY SOON!
+-- Decompiled with Konstant V2.1, a fast Luau decompiler made in Luau by plusgiant5 (https://discord.gg/wyButjTMhM)
+-- Decompiled on 2025-03-22 17:07:56
+-- Luau version 6, Types version 3
+-- Time taken: 0.001100 seconds
+
+local module = {
+	TypeData = {
+		Easy = {
+			Icon = "rbxassetid://15000809595";
+			Gradient = ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.fromRGB(251, 131, 131)), ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 49, 49))});
+			Rolls = 1;
+			CurrencyBagCount = 3;
+			DiamondBagCount = 1;
+			Scale = 0.75;
+		};
+		Medium = {
+			Icon = "rbxassetid://15000809306";
+			Gradient = ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 246, 112)), ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 169, 64))});
+			Rolls = 2;
+			CurrencyBagCount = 4;
+			DiamondBagCount = 2;
+		};
+		Hard = {
+			Icon = "rbxassetid://15000809474";
+			Gradient = ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.fromRGB(251, 134, 245)), ColorSequenceKeypoint.new(1, Color3.fromRGB(221, 52, 255))});
+			Rolls = 3;
+			CurrencyBagCount = 5;
+			DiamondBagCount = 3;
+		};
+		Impossible = {
+			Icon = "rbxassetid://15000808067";
+			Gradient = ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.fromRGB(251, 134, 245)), ColorSequenceKeypoint.new(1, Color3.fromRGB(221, 52, 255))});
+			Rolls = 3;
+			CurrencyBagCount = 6;
+			DiamondBagCount = 4;
+		};
+	};
+}
+for i, v in pairs(module.TypeData) do
+	v.Name = i
+end
+return module
