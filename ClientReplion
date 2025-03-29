@@ -1,0 +1,198 @@
+local Freeze_upvr = require(script.Parent.Parent.Parent.Freeze)
+local Utils_upvr = require(script.Parent.Parent.Internal.Utils)
+local module_upvr = {}
+module_upvr.__index = module_upvr
+local Signal_upvr = require(script.Parent.Parent.Parent.Signal)
+local Signals_upvr = require(script.Parent.Parent.Internal.Signals)
+function module_upvr.new(arg1) -- Line 99
+	--[[ Upvalues[3]:
+		[1]: Signal_upvr (readonly)
+		[2]: Signals_upvr (readonly)
+		[3]: module_upvr (readonly)
+	]]
+	return setmetatable({
+		Data = arg1[3];
+		Tags = arg1[5];
+		ReplicateTo = arg1[4];
+		_channel = arg1[2];
+		_beforeDestroy = Signal_upvr.new();
+		_signals = Signals_upvr.new();
+	}, module_upvr)
+end
+function module_upvr.__tostring(arg1) -- Line 114
+	return `Replion<{arg1._channel}>`
+end
+function module_upvr.BeforeDestroy(arg1, arg2) -- Line 125
+	return arg1._beforeDestroy:Connect(arg2)
+end
+function module_upvr.OnDataChange(arg1, arg2) -- Line 136
+	return arg1._signals:Connect("onDataChange", "__root", arg2)
+end
+function module_upvr.OnChange(arg1, arg2, arg3) -- Line 154
+	return arg1._signals:Connect("onChange", arg2, arg3)
+end
+function module_upvr.OnDescendantChange(arg1, arg2, arg3) -- Line 177
+	return arg1._signals:Connect("onDescendantChange", arg2, arg3)
+end
+function module_upvr.OnArrayInsert(arg1, arg2, arg3) -- Line 189
+	return arg1._signals:Connect("onArrayInsert", arg2, arg3)
+end
+function module_upvr.OnArrayRemove(arg1, arg2, arg3) -- Line 201
+	return arg1._signals:Connect("onArrayRemove", arg2, arg3)
+end
+function module_upvr._set(arg1, arg2, arg3) -- Line 205
+	--[[ Upvalues[2]:
+		[1]: Utils_upvr (readonly)
+		[2]: Freeze_upvr (readonly)
+	]]
+	local any_getPathTable_result1_5 = Utils_upvr.getPathTable(arg2)
+	if Freeze_upvr.Dictionary.getIn(arg1.Data, any_getPathTable_result1_5) == arg3 then
+		return arg3
+	end
+	local any_setIn_result1_4 = Freeze_upvr.Dictionary.setIn(arg1.Data, any_getPathTable_result1_5, arg3)
+	arg1.Data = any_setIn_result1_4
+	arg1._signals:FireEvent("onDataChange", "__root", any_setIn_result1_4, any_getPathTable_result1_5)
+	arg1._signals:FireChange(arg2, any_setIn_result1_4, arg1.Data)
+	return arg3
+end
+function module_upvr._update(arg1, arg2, arg3, arg4) -- Line 224
+	--[[ Upvalues[2]:
+		[1]: Freeze_upvr (readonly)
+		[2]: Utils_upvr (readonly)
+	]]
+	-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+	local any_map_result1 = Freeze_upvr.Dictionary.map(arg3 or arg2, function(arg1_2, arg2_2) -- Line 225
+		--[[ Upvalues[3]:
+			[1]: Utils_upvr (copied, readonly)
+			[2]: Freeze_upvr (copied, readonly)
+			[3]: arg4 (readonly)
+		]]
+		local var26
+		if arg1_2 == Utils_upvr.SerializedNone then
+			var26 = Freeze_upvr.None
+		else
+			var26 = arg1_2
+		end
+		if arg4 then
+			return var26, tonumber(arg2_2)
+		end
+		return var26, arg2_2
+	end)
+	local Data = arg1.Data
+	if arg3 == nil then
+		local any_merge_result1 = Freeze_upvr.Dictionary.merge(arg1.Data, any_map_result1)
+		arg1.Data = any_merge_result1
+		arg1._signals:FireEvent("onDataChange", "__root", any_merge_result1, {})
+		for i, v in any_map_result1 do
+			arg1._signals:FireEvent("onChange", i, Utils_upvr.getValue(v), Data[i])
+		end
+	else
+		local any_getPathTable_result1_4 = Utils_upvr.getPathTable(arg2)
+		local any_mergeIn_result1 = Freeze_upvr.Dictionary.mergeIn(arg1.Data, any_getPathTable_result1_4, any_map_result1)
+		arg1.Data = any_mergeIn_result1
+		arg1._signals:FireEvent("onDataChange", "__root", any_mergeIn_result1, any_getPathTable_result1_4)
+		for i_2, v_2 in any_map_result1 do
+			local any_push_result1 = Freeze_upvr.List.push(any_getPathTable_result1_4, i_2)
+			arg1._signals:FireEvent("onChange", any_push_result1, Utils_upvr.getValue(v_2), Freeze_upvr.Dictionary.getIn(Data, any_push_result1))
+			local _
+		end
+		arg1._signals:FireChange(arg2, any_mergeIn_result1, Data)
+	end
+end
+function module_upvr._increase(arg1, arg2, arg3) -- Line 260
+	return arg1:_set(arg2, arg1:GetExpect(arg2) + arg3)
+end
+function module_upvr._decrease(arg1, arg2, arg3) -- Line 266
+	return arg1:_increase(arg2, -arg3)
+end
+function module_upvr._insert(arg1, arg2, arg3, arg4) -- Line 270
+	--[[ Upvalues[2]:
+		[1]: Utils_upvr (readonly)
+		[2]: Freeze_upvr (readonly)
+	]]
+	local any_getPathTable_result1 = Utils_upvr.getPathTable(arg2)
+	local any_getIn_result1 = Freeze_upvr.Dictionary.getIn(arg1.Data, any_getPathTable_result1)
+	local assert_result1_2 = assert(any_getIn_result1, `"{Utils_upvr.getPathString(arg2)}" is not a valid path!`)
+	if arg4 then
+		any_getIn_result1 = arg4
+	else
+		any_getIn_result1 = #assert_result1_2 + 1
+	end
+	local any_setIn_result1_2 = Freeze_upvr.Dictionary.setIn(arg1.Data, any_getPathTable_result1, Freeze_upvr.List.insert(assert_result1_2, any_getIn_result1, arg3))
+	arg1.Data = any_setIn_result1_2
+	arg1._signals:FireEvent("onDataChange", "__root", any_setIn_result1_2, any_getPathTable_result1)
+	arg1._signals:FireEvent("onArrayInsert", any_getPathTable_result1, any_getIn_result1, arg3)
+	arg1._signals:FireChange(any_getPathTable_result1, any_setIn_result1_2, arg1.Data)
+end
+function module_upvr._remove(arg1, arg2, arg3) -- Line 289
+	--[[ Upvalues[2]:
+		[1]: Utils_upvr (readonly)
+		[2]: Freeze_upvr (readonly)
+	]]
+	local any_getPathTable_result1_2 = Utils_upvr.getPathTable(arg2)
+	local any_getIn_result1_2 = Freeze_upvr.Dictionary.getIn(arg1.Data, any_getPathTable_result1_2)
+	local assert_result1 = assert(any_getIn_result1_2, `"{Utils_upvr.getPathString(arg2)}" is not a valid path!`)
+	if arg3 then
+		any_getIn_result1_2 = arg3
+	else
+		any_getIn_result1_2 = #assert_result1
+	end
+	local var41 = assert_result1[any_getIn_result1_2]
+	local any_setIn_result1 = Freeze_upvr.Dictionary.setIn(arg1.Data, any_getPathTable_result1_2, Freeze_upvr.List.remove(assert_result1, any_getIn_result1_2))
+	arg1.Data = any_setIn_result1
+	arg1._signals:FireEvent("onDataChange", "__root", any_setIn_result1, any_getPathTable_result1_2)
+	arg1._signals:FireEvent("onArrayRemove", arg2, any_getIn_result1_2, var41)
+	arg1._signals:FireChange(arg2, any_setIn_result1, arg1.Data)
+	return var41
+end
+function module_upvr._clear(arg1, arg2) -- Line 311
+	--[[ Upvalues[2]:
+		[1]: Utils_upvr (readonly)
+		[2]: Freeze_upvr (readonly)
+	]]
+	local any_getPathTable_result1_3 = Utils_upvr.getPathTable(arg2)
+	local any_setIn_result1_3 = Freeze_upvr.Dictionary.setIn(arg1.Data, any_getPathTable_result1_3, {})
+	arg1.Data = any_setIn_result1_3
+	arg1._signals:FireEvent("onDataChange", "__root", any_setIn_result1_3, any_getPathTable_result1_3)
+	arg1._signals:FireChange(arg2, any_setIn_result1_3, arg1.Data)
+end
+function module_upvr.Find(arg1, arg2, arg3) -- Line 336
+	local any_Get_result1_2 = arg1:Get(arg2)
+	if not any_Get_result1_2 then return end
+	local table_find_result1 = table.find(any_Get_result1_2, arg3)
+	if not table_find_result1 then return end
+	return table_find_result1, arg3
+end
+function module_upvr.Get(arg1, arg2) -- Line 360
+	--[[ Upvalues[2]:
+		[1]: Freeze_upvr (readonly)
+		[2]: Utils_upvr (readonly)
+	]]
+	return Freeze_upvr.Dictionary.getIn(arg1.Data, Utils_upvr.getPathTable(arg2))
+end
+function module_upvr.GetExpect(arg1, arg2, arg3) -- Line 378
+	--[[ Upvalues[1]:
+		[1]: Utils_upvr (readonly)
+	]]
+	assert(arg2, "Path is required!")
+	local var47
+	if var47 then
+	else
+		var47 = `"{Utils_upvr.getPathString(arg2)}" is not a valid path!`
+	end
+	local any_Get_result1 = arg1:Get(arg2)
+	if any_Get_result1 == nil then
+		error(var47)
+	end
+	return any_Get_result1
+end
+function module_upvr.Destroy(arg1) -- Line 391
+	if arg1.Destroyed then
+	else
+		arg1._beforeDestroy:Fire()
+		arg1._beforeDestroy:DisconnectAll()
+		arg1._signals:Destroy()
+		arg1.Destroyed = true
+	end
+end
+return module_upvr
