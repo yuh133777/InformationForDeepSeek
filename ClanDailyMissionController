@@ -1,0 +1,578 @@
+local ReplicatedStorage_upvr = game:GetService("ReplicatedStorage")
+local UserInputService_upvr = game:GetService("UserInputService")
+local Net_upvr = require(ReplicatedStorage_upvr.Packages.Net)
+local Utils_upvr = require(ReplicatedStorage_upvr.Common.Utils)
+local Maid_upvr = Utils_upvr.Maid
+local var6_upvw
+local LocalPlayer_upvr = game:GetService("Players").LocalPlayer
+local var8_upvw
+local var9_upvw
+local var10_upvw
+local var11_upvw
+local var12_upvw
+local var13_upvw
+local var14_upvw
+local tbl_4_upvr = {}
+local tbl_2_upvr = {
+	[true] = {
+		Image = "rbxassetid://15493476931";
+		Hover = "rbxassetid://15493476991";
+	};
+	[false] = {
+		Image = "rbxassetid://15493477050";
+		Hover = "rbxassetid://15493477104";
+	};
+}
+local tbl_upvr = {
+	[true] = {
+		Image = "rbxassetid://15493638804";
+		Hover = "rbxassetid://15493638891";
+	};
+	[false] = {
+		Image = "rbxassetid://15493633057";
+		Hover = "rbxassetid://15493633119";
+	};
+}
+local module = {
+	_currentSection = "Daily";
+	_onSectionChange = require(ReplicatedStorage_upvr.Packages.Signal).new();
+}
+local var23_upvw
+function module.Init(arg1) -- Line 103
+	--[[ Upvalues[3]:
+		[1]: var23_upvw (read and write)
+		[2]: ReplicatedStorage_upvr (readonly)
+		[3]: var6_upvw (read and write)
+	]]
+	var23_upvw = require(ReplicatedStorage_upvr.Controllers.Clans.ClanController)
+	var6_upvw = require(ReplicatedStorage_upvr.Controllers.Clans.ClanPageController)
+end
+local tbl_5_upvr = {}
+local function _(arg1) -- Line 110, Named "isProcessingRequest"
+	--[[ Upvalues[1]:
+		[1]: tbl_5_upvr (readonly)
+	]]
+	return tbl_5_upvr[arg1]
+end
+local function _(arg1, arg2, arg3) -- Line 114, Named "processRequest"
+	--[[ Upvalues[2]:
+		[1]: tbl_5_upvr (readonly)
+		[2]: Net_upvr (readonly)
+	]]
+	if tbl_5_upvr[arg1] then
+	else
+		tbl_5_upvr[arg1] = true
+		tbl_5_upvr[arg1] = false
+		if arg3 then
+			arg3(Net_upvr:Invoke(arg1, unpack(arg2)))
+		end
+	end
+end
+local function _() -- Line 128, Named "isMobile"
+	--[[ Upvalues[1]:
+		[1]: UserInputService_upvr (readonly)
+	]]
+	local TouchEnabled = UserInputService_upvr.TouchEnabled
+	if TouchEnabled then
+		TouchEnabled = not UserInputService_upvr.MouseEnabled
+	end
+	return TouchEnabled
+end
+function module.RegisterSection(arg1, arg2, arg3) -- Line 132
+	--[[ Upvalues[1]:
+		[1]: tbl_4_upvr (readonly)
+	]]
+	local tbl = {}
+	tbl.Button = arg3
+	tbl.Elements = {}
+	tbl_4_upvr[arg2] = tbl
+end
+function module.RegisterItemToSection(arg1, arg2, arg3) -- Line 139
+	--[[ Upvalues[1]:
+		[1]: tbl_4_upvr (readonly)
+	]]
+	local var27 = tbl_4_upvr[arg2]
+	if not var27 then
+	else
+		table.insert(var27.Elements, arg3)
+	end
+end
+local any_new_result1_upvr_2 = Maid_upvr.new()
+local RunService_upvr = game:GetService("RunService")
+function module.OpenSection(arg1, arg2) -- Line 146
+	--[[ Upvalues[6]:
+		[1]: tbl_4_upvr (readonly)
+		[2]: any_new_result1_upvr_2 (readonly)
+		[3]: var9_upvw (read and write)
+		[4]: var14_upvw (read and write)
+		[5]: RunService_upvr (readonly)
+		[6]: var8_upvw (read and write)
+	]]
+	if not tbl_4_upvr[arg2] then
+	else
+		any_new_result1_upvr_2:DoCleaning()
+		arg1._currentSection = arg2
+		arg1._onSectionChange:Fire(arg2)
+		var9_upvw.Text = `{arg2} Missions`
+		local any_GetExpect_result1_upvr = var14_upvw:GetExpect({"QuestsData", "ClansData", `{arg2}QuestRefreshTimestamp`})
+		any_new_result1_upvr_2:GiveTask(RunService_upvr.RenderStepped:Connect(function(arg1_2) -- Line 157
+			--[[ Upvalues[2]:
+				[1]: any_GetExpect_result1_upvr (readonly)
+				[2]: var8_upvw (copied, read and write)
+			]]
+			local var33 = any_GetExpect_result1_upvr - os.time()
+			if var33 < 0 then
+				var8_upvw.Text = "00:00:00"
+			else
+				var8_upvw.Text = string.format("%02d:%02d:%02d", math.floor(var33 / 3600), math.floor(var33 % 3600 / 60), var33 % 60)
+			end
+		end))
+	end
+end
+function module.GenerateDataForSection(arg1, arg2) -- Line 174
+	--[[ Upvalues[10]:
+		[1]: var10_upvw (read and write)
+		[2]: Maid_upvr (readonly)
+		[3]: var14_upvw (read and write)
+		[4]: LocalPlayer_upvr (readonly)
+		[5]: Utils_upvr (readonly)
+		[6]: UserInputService_upvr (readonly)
+		[7]: tbl_upvr (readonly)
+		[8]: var6_upvw (read and write)
+		[9]: tbl_5_upvr (readonly)
+		[10]: Net_upvr (readonly)
+	]]
+	local clone_3_upvr = script.QuestsFrameTemplate:Clone()
+	clone_3_upvr.Name = `{arg2}QuestContainer`
+	clone_3_upvr.Parent = var10_upvw
+	local any_new_result1_upvr = Maid_upvr.new()
+	any_new_result1_upvr:GiveTask(Maid_upvr.new())
+	local tbl_3_upvr = {"QuestsData", "ClansData", `{arg2}Quests`}
+	local function _(arg1_3) -- Line 192, Named "getQuestObjectInformation"
+		return nil
+	end
+	local function generateQuests_upvr() -- Line 196, Named "generateQuests"
+		--[[ Upvalues[11]:
+			[1]: any_new_result1_upvr (readonly)
+			[2]: var14_upvw (copied, read and write)
+			[3]: tbl_3_upvr (readonly)
+			[4]: LocalPlayer_upvr (copied, readonly)
+			[5]: Utils_upvr (copied, readonly)
+			[6]: UserInputService_upvr (copied, readonly)
+			[7]: tbl_upvr (copied, readonly)
+			[8]: var6_upvw (copied, read and write)
+			[9]: tbl_5_upvr (copied, readonly)
+			[10]: Net_upvr (copied, readonly)
+			[11]: clone_3_upvr (readonly)
+		]]
+		-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+		any_new_result1_upvr:DoCleaning()
+		for i, v_upvw in var14_upvw:GetExpect(tbl_3_upvr), nil do
+			local clone_2 = table.clone(tbl_3_upvr)
+			table.insert(clone_2, i)
+			local clone = script.QuestTemplate:Clone()
+			clone.Name = v_upvw.QuestKey
+			local var55
+			local var56
+			if not var55 then
+				if clone then
+					clone:Destroy()
+				end
+			else
+				var56 = v_upvw.OverwriteProperties.MaxProgress
+				if var56 then
+					var56 = v_upvw.OverwriteProperties
+				end
+				var56 = var55.SimpleReward
+				if var55.CustomReward then
+					var56 = var55.CustomReward.RewardFunction(v_upvw, LocalPlayer_upvr)
+				end
+				if var56 then
+					for i_2, v_2 in pairs(var56) do
+						local NEVER = clone:WaitForChild(1)
+						NEVER:WaitForChild("Icon").Image = Utils_upvr.Icons:GetIcon(i_2) or ""
+						NEVER:WaitForChild("TextLabel").Text = `{v_2}x`
+						NEVER.Visible = true
+						-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+						local var61
+					end
+				end
+				local Title = clone:WaitForChild("Title")
+				local ClaimButton_upvr = clone:WaitForChild("ClaimButton")
+				local Counter_upvr = ClaimButton_upvr:WaitForChild("Counter")
+				local Label_upvr = ClaimButton_upvr:WaitForChild("Label")
+				if not v_upvw.OverwriteProperties.DisplayName then
+					local DisplayName = var55.DisplayName
+					local var67
+				end
+				if not DisplayName then
+					if clone then
+						var67 = clone:Destroy
+						var67()
+					end
+				else
+					Title.Text = DisplayName
+					var67 = UserInputService_upvr.TouchEnabled
+					if var67 then
+						var67 = not UserInputService_upvr.MouseEnabled
+					end
+					if var67 then
+						var67 = true
+						Title.TextScaled = var67
+					end
+					var67 = v_upvw.CurrentProgress
+					if v_upvw.ProgressAction == "Play_Time" then
+						var67 = math.floor(var67 / 60)
+						local ceiled_upvw = math.ceil(var56.MaxProgress / 60)
+					end
+					Counter_upvr.Text = `{var67}/{ceiled_upvw}`
+					local function _(arg1_4) -- Line 270, Named "UpdateVisualState"
+						--[[ Upvalues[2]:
+							[1]: tbl_upvr (copied, readonly)
+							[2]: ClaimButton_upvr (readonly)
+						]]
+						local var69 = tbl_upvr[arg1_4]
+						ClaimButton_upvr.Image = var69.Image
+						ClaimButton_upvr.HoverImage = var69.Hover
+					end
+					if v_upvw.Completed or not v_upvw.Active then
+						Counter_upvr.Text = `{ceiled_upvw}/{ceiled_upvw}`
+						if v_upvw.RewardGiven then
+							Label_upvr.Text = "CLAIMED"
+							local var70 = tbl_upvr[false]
+							ClaimButton_upvr.Image = var70.Image
+							ClaimButton_upvr.HoverImage = var70.Hover
+						else
+							Label_upvr.Text = "Claim!"
+							local var71 = tbl_upvr[true]
+							ClaimButton_upvr.Image = var71.Image
+							ClaimButton_upvr.HoverImage = var71.Hover
+						end
+					else
+						Counter_upvr.Text = `{var67}/{ceiled_upvw}`
+						Label_upvr.Text = "Go"
+					end
+					any_new_result1_upvr:GiveTasks({clone, ClaimButton_upvr.Activated:Connect(function() -- Line 296
+						--[[ Upvalues[5]:
+							[1]: v_upvw (read and write)
+							[2]: var6_upvw (copied, read and write)
+							[3]: var14_upvw (copied, read and write)
+							[4]: tbl_5_upvr (copied, readonly)
+							[5]: Net_upvr (copied, readonly)
+						]]
+						if not v_upvw.Completed then
+							var6_upvw:Close()
+						else
+							if var14_upvw:Find("AwardedQuests", v_upvw.UUID) then
+								warn("[ClanDailyMissionController/claimButton.Activated]", "No quest found in AwardedQuests", v_upvw.UUID, v_upvw)
+								return
+							end
+							if v_upvw.Completed and v_upvw.RewardGiven then return end
+							if tbl_5_upvr.ClaimQuest then
+								warn("[ClanDailyMissionController/claimButton.Activated]", "ClaimQuest, Is processing request")
+								return
+							end
+							local _ = {v_upvw.UUID}
+							if tbl_5_upvr.ClaimQuest then return end
+							tbl_5_upvr.ClaimQuest = true
+							tbl_5_upvr.ClaimQuest = false
+						end
+					end), var14_upvw:OnChange(clone_2, function(arg1_5, arg2_2) -- Line 318
+						--[[ Upvalues[6]:
+							[1]: Counter_upvr (readonly)
+							[2]: ceiled_upvw (read and write)
+							[3]: Label_upvr (readonly)
+							[4]: tbl_upvr (copied, readonly)
+							[5]: ClaimButton_upvr (readonly)
+							[6]: v_upvw (read and write)
+						]]
+						if arg1_5.Completed or not arg1_5.Active then
+							Counter_upvr.Text = `{ceiled_upvw}/{ceiled_upvw}`
+							if arg1_5.RewardGiven then
+								Label_upvr.Text = "CLAIMED"
+								local var76 = tbl_upvr[false]
+								ClaimButton_upvr.Image = var76.Image
+								ClaimButton_upvr.HoverImage = var76.Hover
+							else
+								Label_upvr.Text = "Claim!"
+								local var77 = tbl_upvr[true]
+								ClaimButton_upvr.Image = var77.Image
+								ClaimButton_upvr.HoverImage = var77.Hover
+							end
+						else
+							if arg1_5.CurrentProgress ~= arg2_2.CurrentProgress then
+								Counter_upvr.Text = `{arg1_5.CurrentProgress}/{ceiled_upvw}`
+							end
+							Label_upvr.Text = "Go"
+						end
+						v_upvw = arg1_5
+					end)})
+					clone.Parent = clone_3_upvr
+				end
+			end
+		end
+	end
+	arg1:RegisterItemToSection(arg2, clone_3_upvr)
+	generateQuests_upvr()
+	var14_upvw:OnChange({"QuestsData", "ClansData", `{arg2}QuestRefreshTimestamp`}, function() -- Line 348
+		--[[ Upvalues[1]:
+			[1]: generateQuests_upvr (readonly)
+		]]
+		generateQuests_upvr()
+	end)
+	var14_upvw:OnChange(`Clan{arg2}Refreshes`, function() -- Line 352
+		--[[ Upvalues[1]:
+			[1]: generateQuests_upvr (readonly)
+		]]
+		generateQuests_upvr()
+	end)
+	var14_upvw:OnChange("ClanId", function() -- Line 356
+		--[[ Upvalues[1]:
+			[1]: generateQuests_upvr (readonly)
+		]]
+		generateQuests_upvr()
+	end)
+end
+function module.HookDailySection(arg1) -- Line 361
+	arg1:GenerateDataForSection("Daily")
+end
+function module.HookWeeklySection(arg1) -- Line 365
+	arg1:GenerateDataForSection("Weekly")
+end
+function module.HookBonusReward(arg1) -- Line 369
+	--[[ Upvalues[2]:
+		[1]: var11_upvw (read and write)
+		[2]: var14_upvw (read and write)
+	]]
+	local BarContainer = var11_upvw:WaitForChild("BarContainer")
+	local Bar_upvr = BarContainer:WaitForChild("Bar")
+	local TextLabel_upvr = BarContainer:WaitForChild("TextLabel")
+	local CompletedCounter_upvr = var11_upvw:WaitForChild("CompletedCounter")
+	local function _(arg1_6) -- Line 376, Named "updateBar"
+		--[[ Upvalues[3]:
+			[1]: Bar_upvr (readonly)
+			[2]: TextLabel_upvr (readonly)
+			[3]: CompletedCounter_upvr (readonly)
+		]]
+		local maximum = math.max(0, math.min(arg1_6 / 5, 1))
+		Bar_upvr.Size = UDim2.fromScale(maximum, 1)
+		TextLabel_upvr.Text = string.format("%.0f%%", maximum * 100)
+		CompletedCounter_upvr.Text = `<stroke color="#000000" thickness = "2">Missions completed:<font color="#ffc138"> {arg1_6}</font>/5</stroke>`
+	end
+	var14_upvw:OnChange("DailyFinishedClanMissions", function(arg1_7, arg2) -- Line 384
+		--[[ Upvalues[3]:
+			[1]: Bar_upvr (readonly)
+			[2]: TextLabel_upvr (readonly)
+			[3]: CompletedCounter_upvr (readonly)
+		]]
+		local maximum_2 = math.max(0, math.min(arg1_7 / 5, 1))
+		Bar_upvr.Size = UDim2.fromScale(maximum_2, 1)
+		TextLabel_upvr.Text = string.format("%.0f%%", maximum_2 * 100)
+		CompletedCounter_upvr.Text = `<stroke color="#000000" thickness = "2">Missions completed:<font color="#ffc138"> {arg1_7}</font>/5</stroke>`
+	end)
+	local var89 = var14_upvw:Get("DailyFinishedClanMissions") or 0
+	local maximum_3 = math.max(0, math.min(var89 / 5, 1))
+	Bar_upvr.Size = UDim2.fromScale(maximum_3, 1)
+	TextLabel_upvr.Text = string.format("%.0f%%", maximum_3 * 100)
+	CompletedCounter_upvr.Text = `<stroke color="#000000" thickness = "2">Missions completed:<font color="#ffc138"> {var89}</font>/5</stroke>`
+end
+function module.HookMainButtons(arg1) -- Line 392
+	--[[ Upvalues[5]:
+		[1]: var12_upvw (read and write)
+		[2]: tbl_5_upvr (readonly)
+		[3]: Net_upvr (readonly)
+		[4]: var13_upvw (read and write)
+		[5]: var14_upvw (read and write)
+	]]
+	var12_upvw.Activated:Connect(function() -- Line 393
+		--[[ Upvalues[3]:
+			[1]: tbl_5_upvr (copied, readonly)
+			[2]: arg1 (readonly)
+			[3]: Net_upvr (copied, readonly)
+		]]
+		if tbl_5_upvr.ClaimAllDailyMissions then
+		else
+			local _ = {arg1._currentSection}
+			if tbl_5_upvr.ClaimAllDailyMissions then return end
+			tbl_5_upvr.ClaimAllDailyMissions = true
+			tbl_5_upvr.ClaimAllDailyMissions = false
+		end
+	end)
+	var13_upvw.Activated:Connect(function() -- Line 398
+		--[[ Upvalues[3]:
+			[1]: tbl_5_upvr (copied, readonly)
+			[2]: arg1 (readonly)
+			[3]: Net_upvr (copied, readonly)
+		]]
+		if tbl_5_upvr.RefreshDailyMissionQuests then
+		else
+			local _ = {arg1._currentSection}
+			if tbl_5_upvr.RefreshMissionQuests then return end
+			tbl_5_upvr.RefreshMissionQuests = true
+			tbl_5_upvr.RefreshMissionQuests = false
+		end
+	end)
+	local function _() -- Line 403, Named "UpdateSectionVisual"
+		--[[ Upvalues[3]:
+			[1]: arg1 (readonly)
+			[2]: var14_upvw (copied, read and write)
+			[3]: var13_upvw (copied, read and write)
+		]]
+		if arg1._currentSection == "Weekly" then
+			if var14_upvw:Get("ClanWeeklyRefreshes") < 2 then
+				var13_upvw.Visible = true
+			else
+				var13_upvw.Visible = false
+			end
+		end
+		var13_upvw.Visible = true
+	end
+	arg1._onSectionChange:Connect(function(arg1_8) -- Line 415
+		--[[ Upvalues[3]:
+			[1]: arg1 (readonly)
+			[2]: var14_upvw (copied, read and write)
+			[3]: var13_upvw (copied, read and write)
+		]]
+		if arg1._currentSection == "Weekly" then
+			if var14_upvw:Get("ClanWeeklyRefreshes") < 2 then
+				var13_upvw.Visible = true
+			else
+				var13_upvw.Visible = false
+			end
+		end
+		var13_upvw.Visible = true
+	end)
+	var14_upvw:OnChange("ClanWeeklyRefreshes", function() -- Line 419
+		--[[ Upvalues[3]:
+			[1]: arg1 (readonly)
+			[2]: var14_upvw (copied, read and write)
+			[3]: var13_upvw (copied, read and write)
+		]]
+		if arg1._currentSection == "Weekly" then
+			if var14_upvw:Get("ClanWeeklyRefreshes") < 2 then
+				var13_upvw.Visible = true
+			else
+				var13_upvw.Visible = false
+			end
+		end
+		var13_upvw.Visible = true
+	end)
+	if arg1._currentSection == "Weekly" then
+		if var14_upvw:Get("ClanWeeklyRefreshes") < 2 then
+			var13_upvw.Visible = true
+		else
+			var13_upvw.Visible = false
+		end
+	end
+	var13_upvw.Visible = true
+end
+local ValueConvertor_upvr = Utils_upvr.ValueConvertor
+function module.HookCurrency(arg1) -- Line 426
+	--[[ Upvalues[2]:
+		[1]: var14_upvw (read and write)
+		[2]: ValueConvertor_upvr (readonly)
+	]]
+	for _, v_3 in nil:GetChildren() do
+		if v_3:IsA("ImageLabel") then
+			local Amount_upvr = v_3:WaitForChild("Amount")
+			Amount_upvr.Text = var14_upvw:GetExpect(v_3.Name)
+			var14_upvw:OnChange(v_3.Name, function(arg1_9) -- Line 433
+				--[[ Upvalues[2]:
+					[1]: Amount_upvr (readonly)
+					[2]: ValueConvertor_upvr (copied, readonly)
+				]]
+				Amount_upvr.Text = ValueConvertor_upvr:AddCommas(arg1_9)
+			end)
+		end
+	end
+end
+local Replion_upvr = require(ReplicatedStorage_upvr.Packages.Replion)
+local PlayerGui_upvw = LocalPlayer_upvr.PlayerGui
+local var107_upvw
+local var108_upvw
+local var109_upvw
+local var110_upvw
+local var111_upvw
+function module.Start(arg1) -- Line 439
+	--[[ Upvalues[18]:
+		[1]: var14_upvw (read and write)
+		[2]: Replion_upvr (readonly)
+		[3]: PlayerGui_upvw (read and write)
+		[4]: LocalPlayer_upvr (readonly)
+		[5]: var107_upvw (read and write)
+		[6]: var108_upvw (read and write)
+		[7]: var109_upvw (read and write)
+		[8]: var110_upvw (read and write)
+		[9]: var111_upvw (read and write)
+		[10]: var8_upvw (read and write)
+		[11]: var9_upvw (read and write)
+		[12]: var10_upvw (read and write)
+		[13]: var11_upvw (read and write)
+		[14]: var12_upvw (read and write)
+		[15]: var13_upvw (read and write)
+		[16]: var6_upvw (read and write)
+		[17]: tbl_4_upvr (readonly)
+		[18]: tbl_2_upvr (readonly)
+	]]
+	var14_upvw = Replion_upvr.Client:WaitReplion("Data")
+	PlayerGui_upvw = LocalPlayer_upvr.PlayerGui
+	var107_upvw = PlayerGui_upvw:WaitForChild("Clans")
+	var108_upvw = var107_upvw:WaitForChild("Overview")
+	var109_upvw = var108_upvw:WaitForChild("Views")
+	var110_upvw = var109_upvw:WaitForChild("DailyMissions")
+	var111_upvw = var110_upvw:WaitForChild("Header")
+	var8_upvw = var111_upvw:WaitForChild("Timer")
+	var9_upvw = var111_upvw:WaitForChild("Title")
+	var10_upvw = var110_upvw:WaitForChild("RightSide")
+	var11_upvw = var110_upvw:WaitForChild("DailyBonus")
+	var12_upvw = var110_upvw:WaitForChild("ClaimAllButton")
+	var13_upvw = var110_upvw:WaitForChild("RefreshAllButton")
+	var6_upvw:OnPageOpen("DailyMissions", function() -- Line 458
+		--[[ Upvalues[1]:
+			[1]: arg1 (readonly)
+		]]
+		arg1:OpenSection("Daily")
+	end)
+	arg1:HookMainButtons()
+	arg1:HookBonusReward()
+	for _, v_4_upvr in var110_upvw:WaitForChild("ButtonFrame"):GetChildren(), nil do
+		if v_4_upvr:IsA("ImageButton") then
+			local tostring_result1_upvr = tostring(v_4_upvr.Name)
+			arg1:RegisterSection(tostring_result1_upvr, v_4_upvr)
+			v_4_upvr.Activated:Connect(function() -- Line 480
+				--[[ Upvalues[2]:
+					[1]: arg1 (readonly)
+					[2]: tostring_result1_upvr (readonly)
+				]]
+				if arg1._currentSection == tostring_result1_upvr then
+				else
+					arg1:OpenSection(tostring_result1_upvr)
+				end
+			end)
+			arg1._onSectionChange:Connect(function(arg1_11) -- Line 485
+				--[[ Upvalues[4]:
+					[1]: tbl_4_upvr (copied, readonly)
+					[2]: tostring_result1_upvr (readonly)
+					[3]: tbl_2_upvr (copied, readonly)
+					[4]: v_4_upvr (readonly)
+				]]
+				local var134 = tbl_4_upvr
+				if arg1_11 ~= tostring_result1_upvr then
+					var134 = false
+				else
+					var134 = true
+				end
+				local var135 = tbl_2_upvr[var134]
+				v_4_upvr.Image = var135.Image
+				v_4_upvr.HoverImage = var135.Hover
+				for _, v_5 in var134[tostring_result1_upvr].Elements do
+					v_5.Visible = var134
+				end
+			end)
+			if arg1[`Hook{tostring_result1_upvr}Section`] then
+				arg1[`Hook{tostring_result1_upvr}Section`](arg1)
+			end
+		end
+	end
+end
+return module
