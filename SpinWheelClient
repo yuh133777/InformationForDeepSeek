@@ -1,0 +1,704 @@
+local ReplicatedStorage_upvr_2 = game:GetService("ReplicatedStorage")
+local UserInputService = game:GetService("UserInputService")
+local TweenService_upvr = game:GetService("TweenService")
+local GiftingController_upvr = require(ReplicatedStorage_upvr_2.Controllers.GiftingController)
+local Utils_upvr = require(ReplicatedStorage_upvr_2.Common.Utils)
+local SpinWheelRewards_upvr_2 = require(ReplicatedStorage_upvr_2.Shared.SpinWheelRewards)
+local Policy_upvr_2 = require(game.ReplicatedStorage.Shared.Policy)
+local TradeTokensController_upvr_2 = require(ReplicatedStorage_upvr_2.Controllers.Trading.TradeTokensController)
+local ServerInfo_2 = require(ReplicatedStorage_upvr_2.ServerInfo)
+local CreatePriceLabel_2 = require(ReplicatedStorage_upvr_2.ClientGameModules.CreatePriceLabel)
+local var176
+if ServerInfo_2.isDuelLobbyServer() or ServerInfo_2.isDungeonsLobbyServer() then
+else
+	local LocalPlayer_upvr = game.Players.LocalPlayer
+	if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.GamepadEnabled then
+	end
+	local any_InvokeServer_result1_4_upvw = ReplicatedStorage_upvr_2.Remotes.canUseDailySpin:InvokeServer()
+	local tbl_17_upvr = {"NL", "BE"}
+	local var180_upvw = ""
+	local LocalizationService_upvr_2 = game:GetService("LocalizationService")
+	pcall(function() -- Line 37
+		--[[ Upvalues[3]:
+			[1]: var180_upvw (read and write)
+			[2]: LocalizationService_upvr_2 (readonly)
+			[3]: LocalPlayer_upvr (readonly)
+		]]
+		var180_upvw = LocalizationService_upvr_2:GetCountryRegionForPlayerAsync(LocalPlayer_upvr)
+	end)
+	local WheelMenu_upvr = script.Parent.WheelMenu
+	local Parent_upvr = script.Parent
+	local var185_upvw
+	WheelMenu_upvr.Button.FirstDayButton.Visible = any_InvokeServer_result1_4_upvw
+	WheelMenu_upvr.Button.SpinButton.Visible = true
+	WheelMenu_upvr.BuySpinsFrame.Visible = true
+	local any_WaitReplion_result1_upvr = require(ReplicatedStorage_upvr_2.Packages.Replion).Client:WaitReplion("Data")
+	local any_Get_result1 = any_WaitReplion_result1_upvr:Get("rolls")
+	WheelMenu_upvr.Button.SpinButton.TextLabel.Text = "Spin! ("..any_Get_result1..')'
+	local SpinButton_4 = WheelMenu_upvr.Button.SpinButton
+	if 10 > any_Get_result1 then
+		SpinButton_4 = false
+	else
+		SpinButton_4 = true
+	end
+	SpinButton_4.SpinTenButton.Visible = SpinButton_4
+	any_WaitReplion_result1_upvr:OnChange("rolls", function(arg1) -- Line 54, Named "UpdateRolls"
+		--[[ Upvalues[1]:
+			[1]: WheelMenu_upvr (readonly)
+		]]
+		WheelMenu_upvr.Button.SpinButton.TextLabel.Text = "Spin! ("..arg1..')'
+		local SpinButton = WheelMenu_upvr.Button.SpinButton
+		if 10 > arg1 then
+			SpinButton = false
+		else
+			SpinButton = true
+		end
+		SpinButton.SpinTenButton.Visible = SpinButton
+	end)
+	local GuiHandler_upvr = require(ReplicatedStorage_upvr_2.ClientGameModules.GuiHandler)
+	Parent_upvr.WheelMenu.Button.CloseButton.Activated:Connect(function() -- Line 62
+		--[[ Upvalues[1]:
+			[1]: GuiHandler_upvr (readonly)
+		]]
+		GuiHandler_upvr:Close("Wheel")
+	end)
+	OverlapParams.new().FilterType = Enum.RaycastFilterType.Include
+	local SpinWheelSettings_upvr_2 = require(ReplicatedStorage_upvr_2.Shared.SpinWheelSettings)
+	local TextUtility_upvr_2 = require(ReplicatedStorage_upvr_2.ClientGameModules.TextUtility)
+	local function updateDailyCoinSpin_upvr() -- Line 90, Named "updateDailyCoinSpin"
+		--[[ Upvalues[5]:
+			[1]: var185_upvw (read and write)
+			[2]: SpinWheelSettings_upvr_2 (readonly)
+			[3]: ReplicatedStorage_upvr_2 (readonly)
+			[4]: WheelMenu_upvr (readonly)
+			[5]: TextUtility_upvr_2 (readonly)
+		]]
+		local var194
+		if not var185_upvw then
+		else
+			local UnixTimestamp_2 = DateTime.now().UnixTimestamp
+			var194 = SpinWheelSettings_upvr_2
+			local COIN_SPIN_COOLDOWN = var194.COIN_SPIN_COOLDOWN
+			local var197 = var185_upvw.LastSpinReset + COIN_SPIN_COOLDOWN
+			var194 = var185_upvw.CoinSpins
+			if var194 >= SpinWheelSettings_upvr_2.MAX_COIN_SPINS then
+				COIN_SPIN_COOLDOWN = false
+			else
+				COIN_SPIN_COOLDOWN = true
+			end
+			if var197 > UnixTimestamp_2 then
+				var194 = false
+			else
+				var194 = true
+			end
+			if var194 then
+				ReplicatedStorage_upvr_2.Remotes.UpdateSpinData:FireServer()
+			end
+			if COIN_SPIN_COOLDOWN then
+				WheelMenu_upvr.BuySpinsFrame.BuyOneCoins.ImageColor3 = Color3.fromRGB(255, 255, 255)
+				WheelMenu_upvr.BuySpinsFrame.BuyOneCoins.TextLabel.Text = `Buy 1 Spin ({SpinWheelSettings_upvr_2.COIN_SPIN_PRICE} Coins {SpinWheelSettings_upvr_2.MAX_COIN_SPINS - var185_upvw.CoinSpins}/{SpinWheelSettings_upvr_2.MAX_COIN_SPINS})`
+				return
+			end
+			WheelMenu_upvr.BuySpinsFrame.BuyOneCoins.TextLabel.Text = `Next purchase in {TextUtility_upvr_2.formatTime(var197 - UnixTimestamp_2)}`
+		end
+	end
+	task.spawn(function() -- Line 116
+		--[[ Upvalues[1]:
+			[1]: updateDailyCoinSpin_upvr (readonly)
+		]]
+		while true do
+			updateDailyCoinSpin_upvr()
+			task.wait(1)
+		end
+	end)
+	local function getSpinWheelRewardInfo_upvr(arg1, arg2) -- Line 124, Named "getSpinWheelRewardInfo"
+		--[[ Upvalues[2]:
+			[1]: SpinWheelRewards_upvr_2 (readonly)
+			[2]: LocalPlayer_upvr (readonly)
+		]]
+		local var207 = arg2
+		if not var207 then
+			var207 = SpinWheelRewards_upvr_2:GetSpinWheel(LocalPlayer_upvr)
+		end
+		for i, v in var207 do
+			if v.alternative and v.alternative.name == arg1 then
+				for i_2, v_2 in v.alternative do
+					table.clone(v)[i_2] = v_2
+					local var209
+				end
+				return var209, i
+			end
+			if v.name == arg1 then
+				return v, i
+			end
+		end
+	end
+	local tbl_13_upvr = {}
+	for _, v_3 in pairs(script.Parent:GetDescendants()) do
+		if v_3.Name == "ExpireTimer" and v_3:IsA("TextLabel") then
+			tbl_13_upvr[#tbl_13_upvr + 1] = v_3
+		end
+	end
+	if 0 < #tbl_13_upvr then
+		local _, any_GetActiveEvent_result2_upvr_2 = SpinWheelRewards_upvr_2:GetActiveEvent()
+		if any_GetActiveEvent_result2_upvr_2 then
+			Utils_upvr.Thread.Every(1, function() -- Line 151
+				--[[ Upvalues[3]:
+					[1]: any_GetActiveEvent_result2_upvr_2 (readonly)
+					[2]: tbl_13_upvr (readonly)
+					[3]: Utils_upvr (readonly)
+				]]
+				local var221 = any_GetActiveEvent_result2_upvr_2 - os.time()
+				for _, v_4 in pairs(tbl_13_upvr) do
+					v_4.Text = Utils_upvr.ValueConvertor:FormatTimeWithDaysFull(var221)
+				end
+			end)
+		end
+	end
+	local Spinnyy_upvr_2 = workspace:WaitForChild("Spawn", 1000000):WaitForChild("Spinnyy")
+	local function updateSpinWheelRewards_upvr() -- Line 159, Named "updateSpinWheelRewards"
+		--[[ Upvalues[5]:
+			[1]: ReplicatedStorage_upvr_2 (readonly)
+			[2]: updateSpinWheelRewards_upvr (readonly)
+			[3]: getSpinWheelRewardInfo_upvr (readonly)
+			[4]: Spinnyy_upvr_2 (readonly)
+			[5]: WheelMenu_upvr (readonly)
+		]]
+		-- KONSTANTERROR: [0] 1. Error Block 33 start (CF ANALYSIS FAILED)
+		local any_InvokeServer_result1_2 = ReplicatedStorage_upvr_2.Remotes.GetSpinWheelRewards:InvokeServer()
+		if not any_InvokeServer_result1_2 then
+			return task.delay(2.5, updateSpinWheelRewards_upvr)
+		end
+		-- KONSTANTERROR: [0] 1. Error Block 33 end (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: [258] 161. Error Block 27 start (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: [258] 161. Error Block 27 end (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: [19] 16. Error Block 4 start (CF ANALYSIS FAILED)
+		-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [258.6]
+		-- KONSTANTERROR: [19] 16. Error Block 4 end (CF ANALYSIS FAILED)
+	end
+	function any_GetActiveEvent_result2_upvr_2(arg1) -- Line 220, Named "getMiddlePointOfGuiObject"
+		local AbsolutePosition_6 = arg1.AbsolutePosition
+		local AbsoluteSize_5 = arg1.AbsoluteSize
+		return Vector2.new(AbsolutePosition_6.X + AbsoluteSize_5.X / 2, AbsolutePosition_6.Y + AbsoluteSize_5.Y / 2)
+	end
+	local function _(arg1, arg2) -- Line 230, Named "getAngle"
+		local var229 = arg2 - arg1
+		return (450 - math.deg(math.atan2(var229.Y, var229.X))) % 360 - 180
+	end
+	local BoatTween_upvr_2 = require(ReplicatedStorage_upvr_2.ClientGameModules.BoatTween)
+	local function wheelSpin_upvr(arg1, arg2) -- Line 241, Named "wheelSpin"
+		--[[ Upvalues[3]:
+			[1]: Parent_upvr (readonly)
+			[2]: WheelMenu_upvr (readonly)
+			[3]: BoatTween_upvr_2 (readonly)
+		]]
+		Parent_upvr.WheelMenu.Wheel.Rotation = 0
+		local WheelTemplates_2 = WheelMenu_upvr.Wheel.WheelTemplates
+		local var232 = 360 / #WheelTemplates_2:GetChildren()
+		local SOME_2 = WheelTemplates_2:FindFirstChild("Reward_"..arg1)
+		if not SOME_2 then
+			warn("[SpinWheelClient] Could not find `Reward_"..arg1.."` in "..WheelTemplates_2:GetFullName())
+		else
+			local Wheel_2 = WheelMenu_upvr.Wheel
+			local AbsolutePosition = Wheel_2.AbsolutePosition
+			local AbsoluteSize_3 = Wheel_2.AbsoluteSize
+			local AbsolutePosition_5 = SOME_2.AbsolutePosition
+			local AbsoluteSize_4 = SOME_2.AbsoluteSize
+			local var239 = Vector2.new(AbsolutePosition_5.X + AbsoluteSize_4.X / 2, AbsolutePosition_5.Y + AbsoluteSize_4.Y / 2) - Vector2.new(AbsolutePosition.X + AbsoluteSize_3.X / 2, AbsolutePosition.Y + AbsoluteSize_3.Y / 2)
+			;({
+				Time = math.ceil(7 / (arg2 or 1));
+				EasingStyle = "FabricDecelerate";
+				EasingDirection = "In";
+				StepType = "Heartbeat";
+			}).Goal = {
+				Rotation = (-(-((-10800) + ((450 - math.deg(math.atan2(var239.Y, var239.X))) % 360 - 180)))) - ((math.random() * 0.8 + 0.1) * var232 - var232 / 2);
+			}
+		end
+	end
+	Parent_upvr.WheelMenu.Button.FirstDayButton.Activated:Connect(function() -- Line 272
+		--[[ Upvalues[3]:
+			[1]: any_InvokeServer_result1_4_upvw (read and write)
+			[2]: ReplicatedStorage_upvr_2 (readonly)
+			[3]: TradeTokensController_upvr_2 (readonly)
+		]]
+		any_InvokeServer_result1_4_upvw = ReplicatedStorage_upvr_2.Remotes.canUseDailySpin:InvokeServer()
+		if any_InvokeServer_result1_4_upvw then
+			TradeTokensController_upvr_2:PromptPurchase(1640089100, Enum.InfoType.Product)
+		end
+	end)
+	local var243_upvw = false
+	var176 = Parent_upvr.WheelMenu
+	var176.Button.SpinButton.SpinTenButton.Activated:Connect(function() -- Line 281
+		--[[ Upvalues[12]:
+			[1]: var243_upvw (read and write)
+			[2]: Parent_upvr (readonly)
+			[3]: any_WaitReplion_result1_upvr (readonly)
+			[4]: SpinWheelRewards_upvr_2 (readonly)
+			[5]: LocalPlayer_upvr (readonly)
+			[6]: Utils_upvr (readonly)
+			[7]: getSpinWheelRewardInfo_upvr (readonly)
+			[8]: wheelSpin_upvr (readonly)
+			[9]: WheelMenu_upvr (readonly)
+			[10]: ReplicatedStorage_upvr_2 (readonly)
+			[11]: updateSpinWheelRewards_upvr (readonly)
+			[12]: TweenService_upvr (readonly)
+		]]
+		-- KONSTANTERROR: [0] 1. Error Block 24 start (CF ANALYSIS FAILED)
+		if var243_upvw then return end
+		var243_upvw = true
+		Parent_upvr:SetAttribute("Spinning", true)
+		-- KONSTANTERROR: [0] 1. Error Block 24 end (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: [290] 211. Error Block 34 start (CF ANALYSIS FAILED)
+		local _, any_GetSpinWheel_result2_2 = SpinWheelRewards_upvr_2:GetSpinWheel(LocalPlayer_upvr)
+		-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [295.5]
+		if nil ~= any_GetSpinWheel_result2_2 then
+			-- KONSTANTWARNING: GOTO [298] #217
+		end
+		-- KONSTANTERROR: [290] 211. Error Block 34 end (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: [15] 15. Error Block 4 start (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+		-- KONSTANTERROR: [15] 15. Error Block 4 end (CF ANALYSIS FAILED)
+	end)
+	Parent_upvr.WheelMenu.Button.SpinButton.Activated:Connect(function() -- Line 345
+		--[[ Upvalues[11]:
+			[1]: var243_upvw (read and write)
+			[2]: Parent_upvr (readonly)
+			[3]: SpinWheelRewards_upvr_2 (readonly)
+			[4]: LocalPlayer_upvr (readonly)
+			[5]: Utils_upvr (readonly)
+			[6]: getSpinWheelRewardInfo_upvr (readonly)
+			[7]: wheelSpin_upvr (readonly)
+			[8]: WheelMenu_upvr (readonly)
+			[9]: ReplicatedStorage_upvr_2 (readonly)
+			[10]: updateSpinWheelRewards_upvr (readonly)
+			[11]: TweenService_upvr (readonly)
+		]]
+		if var243_upvw then
+		else
+			var243_upvw = true
+			Parent_upvr:SetAttribute("Spinning", true)
+			local unpack_result1, unpack_result2, unpack_result3, unpack_result4_2 = unpack(Utils_upvr.Network:Invoke("SpinWheel"))
+			if unpack_result1 then
+				local getSpinWheelRewardInfo_result1, getSpinWheelRewardInfo_upvr_result2_2 = getSpinWheelRewardInfo_upvr(unpack_result2, SpinWheelRewards_upvr_2:GetSpinWheel(LocalPlayer_upvr))
+				wheelSpin_upvr(getSpinWheelRewardInfo_upvr_result2_2)
+				WheelMenu_upvr.Button.SpinButton.TextLabel.Text = "Spin! ("..unpack_result3..')'
+				local SpinButton_3 = WheelMenu_upvr.Button.SpinButton
+				if 10 > unpack_result3 then
+					SpinButton_3 = false
+				else
+					SpinButton_3 = true
+				end
+				SpinButton_3.SpinTenButton.Visible = SpinButton_3
+				task.spawn(function() -- Line 358
+					--[[ Upvalues[1]:
+						[1]: ReplicatedStorage_upvr_2 (copied, readonly)
+					]]
+					ReplicatedStorage_upvr_2.Misc.spinwheel.TimePosition = 2
+					ReplicatedStorage_upvr_2.Misc.spinwheel:Play()
+					task.wait(7.3)
+					ReplicatedStorage_upvr_2.Misc.spinwheel:Stop()
+					ReplicatedStorage_upvr_2.Misc.reward:Play()
+				end)
+				task.wait(7.3)
+				task.spawn(updateSpinWheelRewards_upvr)
+				if unpack_result4_2 then
+					WheelMenu_upvr.Win.Text = "You won a dupe! (coins)"
+					TweenService_upvr:Create(WheelMenu_upvr.Win, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {
+						TextTransparency = 0;
+					}):Play()
+					TweenService_upvr:Create(WheelMenu_upvr.Win.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {
+						Transparency = 0;
+					}):Play()
+					task.wait(2)
+					TweenService_upvr:Create(WheelMenu_upvr.Win, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {
+						TextTransparency = 1;
+					}):Play()
+					local tbl_14 = {
+						Transparency = 1;
+					}
+					TweenService_upvr:Create(WheelMenu_upvr.Win.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quad), tbl_14):Play()
+				else
+					tbl_14 = getSpinWheelRewardInfo_result1.displayText
+					local var260 = tbl_14
+					if not var260 then
+						var260 = getSpinWheelRewardInfo_result1.name
+					end
+					WheelMenu_upvr.Win.Text = `You won {var260}!`
+					TweenService_upvr:Create(WheelMenu_upvr.Win, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {
+						TextTransparency = 0;
+					}):Play()
+					TweenService_upvr:Create(WheelMenu_upvr.Win.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {
+						Transparency = 0;
+					}):Play()
+					task.wait(2)
+					TweenService_upvr:Create(WheelMenu_upvr.Win, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {
+						TextTransparency = 1;
+					}):Play()
+					TweenService_upvr:Create(WheelMenu_upvr.Win.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {
+						Transparency = 1;
+					}):Play()
+				end
+			end
+			var243_upvw = false
+			Parent_upvr:SetAttribute("Spinning")
+		end
+	end)
+	WheelMenu_upvr.BuySpinsFrame.BuyOne.Activated:Connect(function() -- Line 397
+		--[[ Upvalues[2]:
+			[1]: Policy_upvr_2 (readonly)
+			[2]: TradeTokensController_upvr_2 (readonly)
+		]]
+		if not Policy_upvr_2:GetPolicyInfo().ArePaidRandomItemsRestricted then
+			TradeTokensController_upvr_2:PromptPurchase(1640151820, Enum.InfoType.Product)
+		end
+	end)
+	var176 = "Buy 1 Spin :robux:%s"
+	CreatePriceLabel_2(WheelMenu_upvr.BuySpinsFrame.BuyOne.TextLabel, 1640151820, "DevProduct", var176)
+	var176 = WheelMenu_upvr.Button.FirstDayButton
+	CreatePriceLabel_2(var176.Frame.Main.PreviousPrice, 1640151820)
+	WheelMenu_upvr.BuySpinsFrame.BuyOne.GiftButton.Activated:Connect(function() -- Line 405
+		--[[ Upvalues[2]:
+			[1]: Policy_upvr_2 (readonly)
+			[2]: GiftingController_upvr (readonly)
+		]]
+		if not Policy_upvr_2:GetPolicyInfo().ArePaidRandomItemsRestricted then
+			GiftingController_upvr:SetGift("GiftSpin1")
+		end
+	end)
+	WheelMenu_upvr.BuySpinsFrame.BuyFive.Activated:Connect(function() -- Line 411
+		--[[ Upvalues[2]:
+			[1]: Policy_upvr_2 (readonly)
+			[2]: TradeTokensController_upvr_2 (readonly)
+		]]
+		if not Policy_upvr_2:GetPolicyInfo().ArePaidRandomItemsRestricted then
+			TradeTokensController_upvr_2:PromptPurchase(1640151943, Enum.InfoType.Product)
+		end
+	end)
+	var176 = "Buy 5 Spins :robux:%s"
+	CreatePriceLabel_2(WheelMenu_upvr.BuySpinsFrame.BuyFive.TextLabel, 1640151943, "DevProduct", var176)
+	WheelMenu_upvr.BuySpinsFrame.BuyFive.GiftButton.Activated:Connect(function() -- Line 419
+		--[[ Upvalues[2]:
+			[1]: Policy_upvr_2 (readonly)
+			[2]: GiftingController_upvr (readonly)
+		]]
+		if not Policy_upvr_2:GetPolicyInfo().ArePaidRandomItemsRestricted then
+			GiftingController_upvr:SetGift("GiftSpin2")
+		end
+	end)
+	WheelMenu_upvr.BuySpinsFrame.BuyTen.Activated:Connect(function() -- Line 425
+		--[[ Upvalues[2]:
+			[1]: Policy_upvr_2 (readonly)
+			[2]: TradeTokensController_upvr_2 (readonly)
+		]]
+		if not Policy_upvr_2:GetPolicyInfo().ArePaidRandomItemsRestricted then
+			TradeTokensController_upvr_2:PromptPurchase(1640152060, Enum.InfoType.Product)
+		end
+	end)
+	var176 = "Buy 10 Spins :robux:%s"
+	CreatePriceLabel_2(WheelMenu_upvr.BuySpinsFrame.BuyTen.TextLabel, 1640152060, "DevProduct", var176)
+	WheelMenu_upvr.BuySpinsFrame.BuyTen.GiftButton.Activated:Connect(function() -- Line 432
+		--[[ Upvalues[2]:
+			[1]: Policy_upvr_2 (readonly)
+			[2]: GiftingController_upvr (readonly)
+		]]
+		if not Policy_upvr_2:GetPolicyInfo().ArePaidRandomItemsRestricted then
+			GiftingController_upvr:SetGift("GiftSpin3")
+		end
+	end)
+	var176 = "PurchasedProducts.WheelSpins"
+	any_WaitReplion_result1_upvr:OnChange(var176, function(arg1) -- Line 442, Named "updatePurchasedSpins"
+		--[[ Upvalues[1]:
+			[1]: WheelMenu_upvr (readonly)
+		]]
+		local BuySpinsFrame_2 = WheelMenu_upvr.BuySpinsFrame
+		if 0 >= arg1 then
+			BuySpinsFrame_2 = false
+		else
+			BuySpinsFrame_2 = true
+		end
+		BuySpinsFrame_2.BuyFive.Visible = BuySpinsFrame_2
+		BuySpinsFrame_2 = WheelMenu_upvr.BuySpinsFrame
+		if 0 >= arg1 then
+			BuySpinsFrame_2 = false
+		else
+			BuySpinsFrame_2 = true
+		end
+		BuySpinsFrame_2.BuyTen.Visible = BuySpinsFrame_2
+		function BuySpinsFrame_2() -- Line 446
+			--[[ Upvalues[1]:
+				[1]: arg1 (readonly)
+			]]
+			-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+			local var274 = script.Parent:FindFirstChild("Extra")
+			if var274 then
+				var274 = script.Parent:FindFirstChild("Extra"):FindFirstChild("Offers")
+			end
+			local var275 = var274
+			if not var275 then
+			else
+				if 0 >= arg1 then
+				else
+				end
+				var275.Ten.Visible = true
+				if 0 >= arg1 then
+				else
+				end
+				var275.OneHundred.Visible = true
+			end
+		end
+		task.spawn(BuySpinsFrame_2)
+	end)
+	var176 = "PurchasedProducts.WheelSpins"
+	local any_Get_result1_4_upvr = any_WaitReplion_result1_upvr:Get(var176)
+	var176 = WheelMenu_upvr.BuySpinsFrame
+	if 0 >= any_Get_result1_4_upvr then
+		var176 = false
+	else
+		var176 = true
+	end
+	var176.BuyFive.Visible = var176
+	if 0 >= any_Get_result1_4_upvr then
+	else
+	end
+	WheelMenu_upvr.BuySpinsFrame.BuyTen.Visible = true
+	task.spawn(function() -- Line 446
+		--[[ Upvalues[1]:
+			[1]: any_Get_result1_4_upvr (readonly)
+		]]
+		-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+		local var279 = script.Parent:FindFirstChild("Extra")
+		if var279 then
+			var279 = script.Parent:FindFirstChild("Extra"):FindFirstChild("Offers")
+		end
+		local var280 = var279
+		if not var280 then
+		else
+			if 0 >= any_Get_result1_4_upvr then
+			else
+			end
+			var280.Ten.Visible = true
+			if 0 >= any_Get_result1_4_upvr then
+			else
+			end
+			var280.OneHundred.Visible = true
+		end
+	end)
+	function any_Get_result1_4_upvr(arg1) -- Line 458, Named "updateVisibleCoins"
+		--[[ Upvalues[2]:
+			[1]: WheelMenu_upvr (readonly)
+			[2]: any_WaitReplion_result1_upvr (readonly)
+		]]
+		local var281 = true
+		if 3000 > arg1 then
+			if 0 >= any_WaitReplion_result1_upvr:Get("PurchasedProducts.WheelSpinsCoins") then
+				var281 = false
+			else
+				var281 = true
+			end
+		end
+		WheelMenu_upvr.BuySpinsFrame.BuyOneCoins.Visible = var281
+	end
+	any_WaitReplion_result1_upvr:OnChange("Credits", any_Get_result1_4_upvr)
+	any_WaitReplion_result1_upvr:OnChange("PurchasedProducts.WheelSpinsCoins", function() -- Line 462
+		--[[ Upvalues[2]:
+			[1]: any_WaitReplion_result1_upvr (readonly)
+			[2]: WheelMenu_upvr (readonly)
+		]]
+		local var283 = true
+		if 3000 > any_WaitReplion_result1_upvr:Get("Credits") then
+			if 0 >= any_WaitReplion_result1_upvr:Get("PurchasedProducts.WheelSpinsCoins") then
+				var283 = false
+			else
+				var283 = true
+			end
+		end
+		WheelMenu_upvr.BuySpinsFrame.BuyOneCoins.Visible = var283
+	end)
+	if 3000 > any_WaitReplion_result1_upvr:Get("Credits") then
+		if 0 >= any_WaitReplion_result1_upvr:Get("PurchasedProducts.WheelSpinsCoins") then
+		else
+		end
+	end
+	WheelMenu_upvr.BuySpinsFrame.BuyOneCoins.Visible = true
+	local any_new_result1_upvr_2 = Utils_upvr.Maid.new()
+	local PlaytimeRewardsInfo_upvr_2 = require(ReplicatedStorage_upvr_2.Common.PlaytimeRewardsInfo)
+	local function updateRolls(arg1) -- Line 470
+		--[[ Upvalues[5]:
+			[1]: any_new_result1_upvr_2 (readonly)
+			[2]: WheelMenu_upvr (readonly)
+			[3]: Utils_upvr (readonly)
+			[4]: PlaytimeRewardsInfo_upvr_2 (readonly)
+			[5]: any_WaitReplion_result1_upvr (readonly)
+		]]
+		if 0 < arg1 then
+			if not any_new_result1_upvr_2.Active then
+			else
+				any_new_result1_upvr_2:Destroy()
+			end
+		end
+		if not any_new_result1_upvr_2.Active then
+			any_new_result1_upvr_2.Active = true
+			any_new_result1_upvr_2:GiveTask(function() -- Line 478
+				--[[ Upvalues[1]:
+					[1]: WheelMenu_upvr (copied, readonly)
+				]]
+				WheelMenu_upvr.Button.SpinButton.ProgressTimer.Visible = false
+				WheelMenu_upvr.Button.SpinButton.ProgressGradient.Enabled = false
+			end)
+			any_new_result1_upvr_2.UpdateTimer = Utils_upvr.Thread.Every(1.5, function() -- Line 482
+				--[[ Upvalues[4]:
+					[1]: PlaytimeRewardsInfo_upvr_2 (copied, readonly)
+					[2]: any_WaitReplion_result1_upvr (copied, readonly)
+					[3]: WheelMenu_upvr (copied, readonly)
+					[4]: Utils_upvr (copied, readonly)
+				]]
+				-- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+				local pairs_result1_3, pairs_result2, pairs_result3 = pairs(PlaytimeRewardsInfo_upvr_2.Rewards)
+				-- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+				-- KONSTANTERROR: [33] 24. Error Block 5 start (CF ANALYSIS FAILED)
+				-- KONSTANTERROR: [33] 24. Error Block 5 end (CF ANALYSIS FAILED)
+				-- KONSTANTERROR: [8] 7. Error Block 2 start (CF ANALYSIS FAILED)
+				-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [33.6]
+				-- KONSTANTERROR: [8] 7. Error Block 2 end (CF ANALYSIS FAILED)
+			end)
+		end
+	end
+	any_WaitReplion_result1_upvr:OnChange("rolls", updateRolls)
+	updateRolls(any_WaitReplion_result1_upvr:Get("rolls"))
+	WheelMenu_upvr.BuySpinsFrame.BuyOneCoins.Activated:Connect(function() -- Line 510
+		--[[ Upvalues[1]:
+			[1]: ReplicatedStorage_upvr_2 (readonly)
+		]]
+		ReplicatedStorage_upvr_2.Remotes.BuySpinCoins:FireServer()
+	end)
+	ReplicatedStorage_upvr_2.Remotes.BoughtASpin.OnClientEvent:Connect(function(arg1, arg2) -- Line 514
+		--[[ Upvalues[6]:
+			[1]: getSpinWheelRewardInfo_upvr (readonly)
+			[2]: wheelSpin_upvr (readonly)
+			[3]: ReplicatedStorage_upvr_2 (readonly)
+			[4]: updateSpinWheelRewards_upvr (readonly)
+			[5]: WheelMenu_upvr (readonly)
+			[6]: TweenService_upvr (readonly)
+		]]
+		local _, getSpinWheelRewardInfo_upvr_result2 = getSpinWheelRewardInfo_upvr(arg1)
+		wheelSpin_upvr(getSpinWheelRewardInfo_upvr_result2)
+		script.Parent.WheelMenu.Button.FirstDayButton.Visible = false
+		script.Parent.WheelMenu.Button.SpinButton.Visible = true
+		task.spawn(function() -- Line 522
+			--[[ Upvalues[2]:
+				[1]: ReplicatedStorage_upvr_2 (copied, readonly)
+				[2]: updateSpinWheelRewards_upvr (copied, readonly)
+			]]
+			ReplicatedStorage_upvr_2.Misc.spinwheel.TimePosition = 2
+			ReplicatedStorage_upvr_2.Misc.spinwheel:Play()
+			task.wait(7.3)
+			ReplicatedStorage_upvr_2.Misc.spinwheel:Stop()
+			ReplicatedStorage_upvr_2.Misc.reward:Play()
+			updateSpinWheelRewards_upvr()
+		end)
+		if arg2 then
+			WheelMenu_upvr.Win.Text = "You won a dupe! (coins)"
+			TweenService_upvr:Create(WheelMenu_upvr.Win, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {
+				TextTransparency = 0;
+			}):Play()
+			TweenService_upvr:Create(WheelMenu_upvr.Win.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {
+				Transparency = 0;
+			}):Play()
+			task.wait(2)
+			TweenService_upvr:Create(WheelMenu_upvr.Win, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {
+				TextTransparency = 1;
+			}):Play()
+			TweenService_upvr:Create(WheelMenu_upvr.Win.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quad), {
+				Transparency = 1;
+			}):Play()
+		end
+	end)
+	WheelMenu_upvr.Info.Activated:Connect(function() -- Line 545
+		--[[ Upvalues[2]:
+			[1]: tbl_17_upvr (readonly)
+			[2]: var180_upvw (read and write)
+		]]
+		script.Parent.Rewards.Visible = true
+		if table.find(tbl_17_upvr, var180_upvw) then
+		end
+		script.Parent.Rewards.Home.Visible = false
+		script.Parent.Rewards.Rewards.Visible = true
+	end)
+	script.Parent.Rewards.Home.Close.Activated:Connect(function() -- Line 554
+		script.Parent.Rewards.Visible = false
+	end)
+	script.Parent.Rewards.Home.RewardsButton.Activated:Connect(function() -- Line 558
+		script.Parent.Rewards.Home.Visible = false
+		script.Parent.Rewards.Rewards.Visible = true
+	end)
+	script.Parent.Rewards.Rewards.Close.Activated:Connect(function() -- Line 563
+		script.Parent.Rewards.Visible = false
+	end)
+	script.Parent.Event.Event:Connect(function() -- Line 567
+		script.Parent.Rewards.Visible = true
+		script.Parent.WheelMenu.Visible = true
+	end)
+	require(ReplicatedStorage_upvr_2.ClientGameModules.ClientPackManager):onChange(function(arg1) -- Line 572
+		--[[ Upvalues[1]:
+			[1]: updateSpinWheelRewards_upvr (readonly)
+		]]
+		if not arg1 then
+		else
+			updateSpinWheelRewards_upvr()
+		end
+	end)
+	ReplicatedStorage_upvr_2.Remotes.UpdateSpinData.OnClientEvent:Connect(function(arg1) -- Line 580
+		--[[ Upvalues[2]:
+			[1]: var185_upvw (read and write)
+			[2]: updateDailyCoinSpin_upvr (readonly)
+		]]
+		var185_upvw = arg1
+		updateDailyCoinSpin_upvr()
+	end)
+	task.spawn(function() -- Line 587
+		--[[ Upvalues[2]:
+			[1]: Policy_upvr_2 (readonly)
+			[2]: TradeTokensController_upvr_2 (readonly)
+		]]
+		local var309 = script.Parent:FindFirstChild("Extra")
+		if var309 then
+			var309 = script.Parent:FindFirstChild("Extra"):FindFirstChild("Offers")
+		end
+		local var310 = var309
+		if not var310 then
+		else
+			var310.Ten.Activated:Connect(function() -- Line 591
+				--[[ Upvalues[2]:
+					[1]: Policy_upvr_2 (copied, readonly)
+					[2]: TradeTokensController_upvr_2 (copied, readonly)
+				]]
+				if not Policy_upvr_2:GetPolicyInfo().ArePaidRandomItemsRestricted then
+					TradeTokensController_upvr_2:PromptPurchase(1711304153, Enum.InfoType.Product)
+				end
+			end)
+			var310.OneHundred.Activated:Connect(function() -- Line 596
+				--[[ Upvalues[2]:
+					[1]: Policy_upvr_2 (copied, readonly)
+					[2]: TradeTokensController_upvr_2 (copied, readonly)
+				]]
+				if not Policy_upvr_2:GetPolicyInfo().ArePaidRandomItemsRestricted then
+					TradeTokensController_upvr_2:PromptPurchase(1711304266, Enum.InfoType.Product)
+				end
+			end)
+		end
+	end)
+	if not game:GetService("GuiService"):IsTenFootInterface() then
+		local Position = WheelMenu_upvr.Position
+		local Size = WheelMenu_upvr.Size
+		WheelMenu_upvr.Position = UDim2.new(Position.X.Scale, Position.X.Offset, Position.Y.Scale + 0.093, Position.Y.Offset)
+		WheelMenu_upvr.Size = UDim2.new(Size.X.Scale, Size.X.Offset, Size.Y.Scale + 0.05, Size.Y.Offset)
+		Parent_upvr:GetPropertyChangedSignal("Enabled"):Connect(function() -- Line 615, Named "updateVisibility"
+			--[[ Upvalues[2]:
+				[1]: ReplicatedStorage_upvr_2 (readonly)
+				[2]: Parent_upvr (readonly)
+			]]
+			require(ReplicatedStorage_upvr_2.Controllers.UI.UIStateController).HideHotbar:SetTag("SpinWheel", Parent_upvr.Enabled)
+		end)
+		require(ReplicatedStorage_upvr_2.Controllers.UI.UIStateController).HideHotbar:SetTag("SpinWheel", Parent_upvr.Enabled)
+	end
+end
