@@ -1,0 +1,83 @@
+local RunService_upvr = game:GetService("RunService")
+return {
+	LoadChildren = function(arg1, arg2) -- Line 51, Named "LoadChildren"
+		for _, v in arg1:GetChildren() do
+			if v:IsA("ModuleScript") and (not arg2 or arg2(v)) then
+				({})[v.Name] = require(v)
+			end
+		end
+		-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+		return {}
+	end;
+	LoadDescendants = function(arg1, arg2) -- Line 81, Named "LoadDescendants"
+		--[[ Upvalues[1]:
+			[1]: RunService_upvr (readonly)
+		]]
+		-- KONSTANTWARNING: Variable analysis failed. Output will have some incorrect variable assignments
+		for _, v_2_upvr in arg1:GetDescendants() do
+			local var19
+			if var19 and (not arg2 or arg2(v_2_upvr)) then
+				if RunService_upvr:IsServer() then
+				else
+				end
+				local const_number_upvr = 1
+				local task_delay_result1 = task.delay(1, function() -- Line 90
+					--[[ Upvalues[2]:
+						[1]: v_2_upvr (readonly)
+						[2]: const_number_upvr (readonly)
+					]]
+					task.spawn(error, `"{v_2_upvr.Name}" module took more than {const_number_upvr}s to be required!`)
+				end)
+				;({})[v_2_upvr.Name] = require(v_2_upvr)
+				if coroutine.status(task_delay_result1) == "suspended" then
+					pcall(task.cancel, task_delay_result1)
+				end
+			end
+		end
+		-- KONSTANTERROR: Expression was reused, decompilation is incorrect
+		return {}
+	end;
+	LoadDescendantsSafe = function(arg1, arg2) -- Line 106, Named "LoadDescendantsSafe"
+		--[[ Upvalues[1]:
+			[1]: RunService_upvr (readonly)
+		]]
+		-- KONSTANTERROR: [0] 1. Error Block 1 start (CF ANALYSIS FAILED)
+		local descendants, NONE_3, NONE_5 = arg1:GetDescendants()
+		-- KONSTANTERROR: [0] 1. Error Block 1 end (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: [67] 52. Error Block 15 start (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: [67] 52. Error Block 15 end (CF ANALYSIS FAILED)
+		-- KONSTANTERROR: [6] 5. Error Block 2 start (CF ANALYSIS FAILED)
+		-- KONSTANTWARNING: Failed to evaluate expression, replaced with nil [67.8]
+		-- KONSTANTERROR: [6] 5. Error Block 2 end (CF ANALYSIS FAILED)
+	end;
+	MatchesName = function(arg1) -- Line 144, Named "MatchesName"
+		return function(arg1_2) -- Line 145
+			--[[ Upvalues[1]:
+				[1]: arg1 (readonly)
+			]]
+			local var27
+			if arg1_2.Name:match(arg1) == nil then
+				var27 = false
+			else
+				var27 = true
+			end
+			return var27
+		end
+	end;
+	SpawnAll = function(arg1, arg2) -- Line 172, Named "SpawnAll"
+		for i_3_upvr, v_3_upvr in arg1 do
+			local var30_upvr = v_3_upvr[arg2]
+			if type(var30_upvr) == "function" then
+				task.spawn(function() -- Line 176
+					--[[ Upvalues[3]:
+						[1]: i_3_upvr (readonly)
+						[2]: var30_upvr (readonly)
+						[3]: v_3_upvr (readonly)
+					]]
+					debug.setmemorycategory(i_3_upvr)
+					var30_upvr(v_3_upvr)
+				end)
+			end
+		end
+	end;
+}
