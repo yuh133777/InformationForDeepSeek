@@ -1,0 +1,224 @@
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RewardInfo = require(ReplicatedStorage.Common.RewardInfo)
+RewardInfo.createCoinsReward(0, "Small").Icon = ""
+local module = {
+	Name = "Poison";
+	ReplionPath = `HourlyWheel.{"Poison"}`;
+	Products = {
+		Spinx1 = 2320419773;
+		Spinx1First = 2320420398;
+	};
+	StreakHoursRewards = {{
+		Reward = RewardInfo.createHourlyWheelSpinsReward(1, "Poison");
+		Luck = 0.5;
+		TimeStamp = 3600;
+	}, {
+		Reward = RewardInfo.createHourlyWheelSpinsReward(2, "Poison");
+		Luck = 1;
+		TimeStamp = 7200;
+	}, {
+		Reward = RewardInfo.createHourlyWheelSpinsReward(4, "Poison");
+		Luck = 1.5;
+		TimeStamp = 10800;
+	}, {
+		Reward = RewardInfo.createHourlyWheelSpinsReward(8, "Poison");
+		Luck = 2;
+		TimeStamp = 14400;
+	}};
+	Start = DateTime.fromUniversalTime(2025, 3, 1, 17);
+	End = DateTime.fromUnixTimestamp(DateTime.fromUniversalTime(2025, 3, 1, 17).UnixTimestamp + 1209600);
+}
+local tbl_2 = {}
+local tbl = {
+	Chance = 0.5;
+	Reward = RewardInfo.createSwordReward("Poison Ivy");
+	LimitedStock = true;
+	Replacement = {
+		Reward = RewardInfo.createSwordReward("Poison Blade");
+		Chance = 0.5;
+	};
+}
+local RunService_upvr = game:GetService("RunService")
+local Replion_upvr = require(ReplicatedStorage.Packages.Replion)
+function tbl.ShouldUseReplacement(arg1) -- Line 72
+	--[[ Upvalues[2]:
+		[1]: RunService_upvr (readonly)
+		[2]: Replion_upvr (readonly)
+	]]
+	local var15
+	local var16
+	if RunService_upvr:IsClient() then
+		var16 = Replion_upvr
+		var15 = var16.Client:WaitReplion("LimitedStockItems")
+	else
+		var16 = Replion_upvr
+		var15 = var16.Server:WaitReplion("LimitedStockItems")
+	end
+	if not var15 or not var15:Get("Loaded") then
+		return true
+	end
+	local any_Get_result1 = var15:Get({"Stock", "Poison Ivy"})
+	local function INLINED() -- Internal function, doesn't exist in bytecode
+		var16 = 0
+		return any_Get_result1 <= var16
+	end
+	if not any_Get_result1 or INLINED() then
+		var16 = true
+		return var16
+	end
+	if arg1:Get("ReceivedHourlyWheelEternalHeartBlade") ~= true then
+		var16 = false
+	else
+		var16 = true
+	end
+	return var16
+end
+tbl_2[1] = tbl
+module.GuaranteedRewards = tbl_2
+module.GuaranteedRewardChanceRestOn = "Item4"
+module.HourlyReward = RewardInfo.createHourlyWheelSpinsReward(1, "Poison")
+module.Inner = {
+	Item4 = {
+		Angle = 235;
+		Probability = 0.5;
+		Advance = true;
+		IconId = "";
+	};
+	Item2 = {
+		Angle = 56;
+		Probability = 40.5;
+		Reward = RewardInfo.createEmoteReward("Poison Kiss");
+	};
+	Item3 = {
+		Angle = 144;
+		Probability = 44;
+		Reward = RewardInfo.createSeasonPassCurrencyReward(150);
+	};
+	Item1 = {
+		Angle = -33;
+		Probability = 15;
+		Reward = RewardInfo.createExplosionReward("Corrosive Cataclysm");
+	};
+}
+module.Middle = {
+	Item3 = {
+		Angle = 56;
+		Probability = 15;
+		Advance = true;
+		IconId = "";
+	};
+	Item2 = {
+		Angle = 118;
+		Probability = 45;
+		Reward = RewardInfo.createCrateKeyReward("PremiumSword", 1, "Premium Sword Crate", "rbxassetid://15049301853");
+	};
+	Item6 = {
+		Angle = 300;
+		Probability = 13;
+		Reward = RewardInfo.createSeasonPassCurrencyReward(50);
+		AbilityTrial = {
+			Reward = RewardInfo.createAbilityFreeTrialReward("Calming Deflection", 900);
+			ExpireTime = 1741107600;
+		};
+	};
+	Item4 = {
+		Angle = 180;
+		Probability = 12;
+		Reward = RewardInfo.createSeasonPassCurrencyReward(50);
+		AbilityTrial = {
+			Reward = RewardInfo.createAbilityFreeTrialReward("Dribble", 900);
+			ExpireTime = 1741107600;
+		};
+	};
+	Item5 = {
+		Angle = 235;
+		Probability = 10;
+		Reward = RewardInfo.createWheelSpinReward(1);
+		AbilityTrial = {
+			Reward = RewardInfo.createAbilityFreeTrialReward("Dragon Spirit", 900);
+			ExpireTime = 1741107600;
+		};
+	};
+	Item1 = {
+		Angle = 2;
+		Probability = 5;
+		Reward = RewardInfo.createCoinsReward(2500, "Huge");
+		AbilityTrial = {
+			Reward = RewardInfo.createAbilityFreeTrialReward("Singularity", 900);
+			ExpireTime = 1741107600;
+		};
+	};
+}
+module.Outer = {
+	Item6 = {
+		Angle = 179;
+		Probability = 25;
+		Advance = true;
+		Lucky = true;
+		IconId = "";
+	};
+	Item2 = {
+		Angle = 45;
+		Probability = 15;
+		Reward = RewardInfo.createExplosionReward("Venomous Eruption");
+		AbilityTrial = {
+			Reward = RewardInfo.createAbilityFreeTrialReward("Death Slash", 900);
+			ExpireTime = 1741107600;
+		};
+	};
+	Item3 = {
+		Angle = 89;
+		Probability = 15;
+		Reward = RewardInfo.createCrateKeyReward("PremiumSword", 1, "Premium Sword Crate", "rbxassetid://15049301853");
+		AbilityTrial = {
+			Reward = RewardInfo.createAbilityFreeTrialReward("Phantom", 900);
+			ExpireTime = 1741107600;
+		};
+	};
+	Item4 = {
+		Angle = 133.5;
+		Probability = 20;
+		Reward = RewardInfo.createHourlyWheelSpinsReward(1, "Poison");
+		AbilityTrial = {
+			Reward = RewardInfo.createAbilityFreeTrialReward("Titan Blade", 900);
+			ExpireTime = 1741107600;
+		};
+	};
+	Item5 = {
+		Angle = 225;
+		Probability = 10;
+		Reward = RewardInfo.createCrateKeyReward("PremiumExplosion", 1, "Premium Explosion Crate", "rbxassetid://15049303003");
+		AbilityTrial = {
+			Reward = RewardInfo.createAbilityFreeTrialReward("Continuity Zero", 900);
+			ExpireTime = 1741107600;
+		};
+	};
+	Item1 = {
+		Angle = 3.5;
+		Probability = 7;
+		Reward = RewardInfo.createCoinsReward(500, "Med");
+		AbilityTrial = {
+			Reward = RewardInfo.createAbilityFreeTrialReward("Serpent Shadow Clone", 900);
+			ExpireTime = 1741107600;
+		};
+	};
+	Item7 = {
+		Angle = 269;
+		Probability = 6;
+		Reward = RewardInfo.createCoinsReward(1000, "Big");
+		AbilityTrial = {
+			Reward = RewardInfo.createAbilityFreeTrialReward("Infinity", 900);
+			ExpireTime = 1741107600;
+		};
+	};
+	Item8 = {
+		Angle = 317;
+		Probability = 2;
+		Reward = RewardInfo.createCoinsReward(2500, "Huge");
+		AbilityTrial = {
+			Reward = RewardInfo.createAbilityFreeTrialReward("Quantum Arena", 900);
+			ExpireTime = 1741107600;
+		};
+	};
+}
+return module
