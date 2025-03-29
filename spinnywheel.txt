@@ -1,0 +1,13 @@
+local ServerInfo = require(game:GetService("ReplicatedStorage").ServerInfo)
+if ServerInfo.isDuelLobbyServer() or ServerInfo.isDungeonsLobbyServer() then
+else
+	task.wait(2)
+	local Spinnyy_upvr = workspace:WaitForChild("Spawn", 1000000):WaitForChild("Spinnyy")
+	game:GetService("RunService").RenderStepped:Connect(function(arg1) -- Line 12
+		--[[ Upvalues[1]:
+			[1]: Spinnyy_upvr (readonly)
+		]]
+		local var4 = Spinnyy_upvr
+		var4.CFrame *= CFrame.Angles(0, 0.2 * arg1, 0)
+	end)
+end
