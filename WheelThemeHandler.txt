@@ -1,0 +1,28 @@
+while task.wait(1.5) do
+	local SpinWheelRewards_upvr = require(game:GetService("ReplicatedStorage").Shared.SpinWheelRewards)
+	local LocalPlayer_upvr = game:GetService("Players").LocalPlayer
+	local var4_upvw
+	local var5_upvw
+	task.spawn(function() -- Line 9
+		--[[ Upvalues[4]:
+			[1]: SpinWheelRewards_upvr (readonly)
+			[2]: LocalPlayer_upvr (readonly)
+			[3]: var4_upvw (read and write)
+			[4]: var5_upvw (read and write)
+		]]
+		local any_GetSpinWheel_result1, any_GetSpinWheel_result2 = SpinWheelRewards_upvr:GetSpinWheel(LocalPlayer_upvr)
+		local var12 = any_GetSpinWheel_result2:match("^(%w+)/?") or any_GetSpinWheel_result2
+		if var12 ~= var4_upvw then
+			local SOME = script.Parent:FindFirstChild(var12)
+			if SOME then
+				if var5_upvw then
+					if var5_upvw:GetAttribute("Spinning") then return end
+					var5_upvw.SpinWheelClient.Enabled = false
+				end
+				SOME.SpinWheelClient.Enabled = true
+				var5_upvw = SOME
+				var4_upvw = var12
+			end
+		end
+	end)
+end
